@@ -6,7 +6,7 @@ Hi!, I'm Allen Ronn Parado, currently 3rd year IT student in the Philippines. I'
 
 ## Contact
 - 🌐 [CTF Writeups](http://rename.gitbook.io/whoami/)
-- 💼 [LinkedIn](https://linkedin.com/in/allenparado)
+- 💼 [LinkedIn](https://www.linkedin.com/in/allen-ronn-parado-846981383/)
 - 🐙 [GitHub](https://github.com/Aqxamid)
 
 ## Skills
