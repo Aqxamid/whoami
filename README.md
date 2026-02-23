@@ -5,7 +5,6 @@ Welcome to my GitHub profile!  I’m an aspiring IT enthusiast exploring coding,
 Hi!, I'm Allen Ronn Parado, currently 3rd year IT student in the Philippines. I'm continously learning different kinds of stuffs and learning new technologies along the way.
 
 ## Contact
-- 📧 allen@example.com
 - 🌐 [CTF Writeups](http://rename.gitbook.io/whoami/)
 - 💼 [LinkedIn](https://linkedin.com/in/allenparado)
 - 🐙 [GitHub](https://github.com/Aqxamid)
