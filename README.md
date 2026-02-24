@@ -12,4 +12,4 @@ Hi!, I'm Allen Ronn Parado, currently 3rd year IT student in the Philippines. I'
 ## Skills
 - Languages: C, Java, Python, C#, VB.NET, Dart 
 - Frameworks: .NET
-- Tools: Git, MySQL, SQLite, Linux, OWASP ZAP, Burpsuite, Nmap
+- Tools/Others: Git, MySQL, Access, Linux, OWASP ZAP, Burpsuite, Nmap
