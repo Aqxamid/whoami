@@ -45,7 +45,7 @@ Full-stack platform for hands-on exploitation of real-world vulnerabilities in i
 - **Tech:** HTML, Tailwind CSS, Node.js, Express, Supabase, Docker
 - **Features:** JWT auth with token blacklist, RBAC (student/instructor/admin), containerized labs (XSS, SQLi, IDOR, JWT, Path Traversal), flag submission + progress tracking
 - **Live Demo:** [View Project](https://cyberlab-frontend.onrender.com)
- ![CyberLab Status](https://img.shields.io/uptimerobot/ratio/m802607965?style=for-the-badge&label=CyberLab%20Status)
+ ![CyberLab Status](https://img.shields.io/uptimerobot/status?apiKey=e41d6d5dfe21290bac61b0eb&monitors=802607963&label=CyberLab%20Status&style=for-the-badge)
 - **Repository:** [My Repo](https://github.com/Aqxamid/cyberlab-online)
 
 ---
@@ -55,7 +55,7 @@ Security-focused anonymous system with verifiable integrity and tamper-evident d
 - **Tech:** Node.js, Express, PostgreSQL (Supabase), NodeCache
 - **Features:** AES-256-GCM encryption, Ed25519 signatures, Merkle tree proofs, hash-chain audit logs, bilingual moderation (EN/Tagalog), RBAC + analytics dashboard
 - **Live Demo:** [View Project](https://cctpinion.onrender.com)
- ![CCTPinion Status](https://img.shields.io/uptimerobot/ratio/m802607963?style=for-the-badge&label=CCTPinion%20Status)
+ ![CCTPinion Status](https://img.shields.io/uptimerobot/status?apiKey=73c5869c9fed97ebd0737fe2&monitors=802607965&label=CCTPinion%20Status&style=for-the-badge)
 - **Repository:** Private (available upon request)
 
 ---
