@@ -10,6 +10,6 @@ Hi!, I'm Allen Ronn Parado, currently 3rd year IT student in the Philippines. I'
 - 🐙 [GitHub](https://github.com/Aqxamid)
 
 ## Skills
-- Languages: C, Java, Python, C#, VB.NET, Dart 
-- Frameworks: .NET
-- Tools/Others: Git, MySQL, Access, Linux, OWASP ZAP, Burpsuite, Nmap
+- Languages: Java, Python, C#, Dart, Javascript
+- Frameworks: .NET, Express.js
+- Tools/Others: Git, MySQL, PostgreSQL, Node.js, Access, Linux, OWASP ZAP, Burpsuite, Nmap, NPM, Docker, Tailwind
