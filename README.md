@@ -12,4 +12,4 @@ Hi!, I'm Allen Ronn Parado, currently 3rd year IT student in the Philippines. I'
 ## Skills
 - Languages: Java, Python, C#, Dart, Javascript
 - Frameworks: .NET, Express.js
-- Tools/Others: Git, MySQL, PostgreSQL, Node.js, Access, Linux, OWASP ZAP, Burpsuite, Nmap, NPM, Docker, Tailwind
+- Tools/Others: Git, MySQL, PostgreSQL, Node.js, Access, Linux, OWASP ZAP, Burpsuite, Nmap, NPM, Docker, Tailwind, Flutter
