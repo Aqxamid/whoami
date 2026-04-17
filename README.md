@@ -40,10 +40,10 @@ OWASP ZAP, Burp Suite, Nmap, NPM, Microsoft Access
 
 ### Web Applications
 
-#### CyberLab-Online — Interactive Cybersecurity Training Platform
+#### SecureLabs — Interactive Cybersecurity Training Platform
 Full-stack platform for hands-on exploitation of real-world vulnerabilities in isolated lab environments.
 - **Tech:** HTML, Tailwind CSS, Node.js, Express, Supabase, Docker
-- **Features:** JWT auth with token blacklist, RBAC (student/instructor/admin), containerized labs (XSS, SQLi, IDOR, JWT, Path Traversal), flag submission + progress tracking
+- **Features:** JWT auth with token blacklist, RBAC (student/instructor/admin), containerized labs (XSS, SQLi, IDOR, JWT, Path Traversal), flag submission + progress tracking, more...
 - **Live Demo:** [View Project](https://cyberlab-frontend.onrender.com)
 - **Repository:** [My Repo](https://github.com/Aqxamid/cyberlab-online)
 
