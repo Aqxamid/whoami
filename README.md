@@ -1,18 +1,18 @@
-# 👨‍💻 whoami
+# whoami
 
 I’m an aspiring IT enthusiast exploring coding, software development, and all things tech.
 Learning, experimenting, and building — one commit at a time.
 
 ---
 
-## 👋 About Me
+## About Me
 
 Hi! I'm **Allen Ronn Parado**, a 3rd-year IT student based in the Philippines.
 I continuously explore different technologies, with a strong focus on security, development, and system design.
 
 ---
 
-## 📫 Contact
+## Contact
 
 - 🌐 [CTF Writeups](http://rename.gitbook.io/whoami/)
 - 💼 [LinkedIn](https://www.linkedin.com/in/allen-ronn-parado-846981383/)
@@ -22,7 +22,7 @@ I continuously explore different technologies, with a strong focus on security, 
 
 ---
 
-## 🧠 Skills
+## Skills
 
 **Languages:**  
 Java, Python, C#, Dart, JavaScript
@@ -36,9 +36,9 @@ OWASP ZAP, Burp Suite, Nmap, NPM, Microsoft Access
 
 ---
 
-## 🚀 Projects
+## Projects
 
-### 🌐 Web Applications
+### Web Applications
 
 #### CyberLab-Online — Interactive Cybersecurity Training Platform
 Full-stack platform for hands-on exploitation of real-world vulnerabilities in isolated lab environments.
@@ -58,13 +58,12 @@ Security-focused anonymous system with verifiable integrity and tamper-evident d
 
 ---
 
-### 📱 Mobile Applications
+### Mobile Applications
 
 #### Secure Vault — Encrypted Password Manager (Flutter)
 Offline-first secure vault with strong cryptographic guarantees and biometric authentication.
 - **Tech:** Flutter, Dart, SQLite, AES-256-GCM, PBKDF2-SHA256, Android Keystore
 - **Features:** Encrypted notes/passwords, biometric unlock, auto-lock + rate limiting, secure clipboard, password generator, encrypted backup/restore
-- **Status:** 🚧 In development / Private repository
 - **APK / Download:** Not yet publicly available
 
 ---
