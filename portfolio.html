@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allen Ronn Parado</title>
+  <meta name="description" content="Information technology student and developer specialising in cybersecurity, Flutter mobile apps, and full-stack web development." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Afacad:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <style>
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+:root {
+  --surface:            #fcf9f2;
+  --surface-low:        #f6f3ec;
+  --surface-container:  #f0eee7;
+  --surface-high:       #eae8e1;
+  --surface-highest:    #e4e2db;
+  --surface-lowest:     #ffffff;
+  --on-surface:         #1b1c18;
+  --on-surface-variant: #46483c;
+  --charcoal:           #2d2d2d;
+  --primary:            #56642b;
+  --primary-container:  #8a9a5b;
+  --primary-fixed:      #d9eaa3;
+  --outline-variant:    #c6c8b8;
+  --outline:            #76786b;
+  --ff-headline: 'Plus Jakarta Sans', sans-serif;
+  --ff-display:  'Afacad', sans-serif;
+  --ff-body:     'Inter', sans-serif;
+  --transition-page: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 200ms ease;
+  --transition-med:  350ms ease;
+}
+
+/* ============================================
+   RESET
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--ff-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ============================================
+   PAGE TRANSITION OVERLAY
+   ============================================ */
+#page-overlay {
+  position: fixed; inset: 0;
+  background: var(--surface-low);
+  z-index: 9999; pointer-events: none; opacity: 0;
+  transition: opacity var(--transition-page);
+}
+#page-overlay.fade-out { opacity: 1; pointer-events: all; }
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+#progress-bar {
+  position: fixed; right: 0; top: 0;
+  width: 4px; height: 100%;
+  background: var(--surface-highest); z-index: 200;
+}
+#progress-fill {
+  width: 100%; height: 0%;
+  background: var(--primary-container);
+  transition: height 80ms linear; transform-origin: top;
+}
+
+/* ============================================
+   TOP NAV
+   ============================================ */
+#top-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(252, 249, 242, 0.72);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 40px rgba(27,28,24,0.04);
+  transition: box-shadow var(--transition-med);
+}
+#top-nav.scrolled { box-shadow: 0 8px 40px rgba(27,28,24,0.08); }
+.nav-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 48px; max-width: 1440px; margin: 0 auto;
+}
+.nav-logo {
+  font-family: var(--ff-headline); font-weight: 800; font-size: 1.25rem;
+  letter-spacing: -0.03em; color: var(--charcoal);
+  transition: opacity var(--transition-fast);
+}
+.nav-logo:hover { opacity: 0.6; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: var(--ff-headline); font-size: 16px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(45,45,45,0.55);
+  transition: color var(--transition-fast);
+  padding-bottom: 4px; position: relative;
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a.active { color: var(--primary); border-bottom: 1px solid var(--primary); }
+.nav-cta {
+  font-family: var(--ff-headline); font-size: 16px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary);
+  transition: opacity var(--transition-fast);
+}
+.nav-cta:hover { opacity: 0.6; }
+
+/* Hamburger */
+.nav-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  padding: 4px; cursor: pointer; z-index: 110;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--charcoal);
+  transition: transform var(--transition-med), opacity var(--transition-fast), width var(--transition-med);
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile menu */
+#mobile-menu {
+  position: fixed; inset: 0; background: var(--surface); z-index: 99;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 40px; opacity: 0; pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity var(--transition-med), transform var(--transition-med);
+}
+#mobile-menu.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+#mobile-menu a {
+  font-family: var(--ff-display); font-size: 2.5rem; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--charcoal);
+  transition: color var(--transition-fast);
+}
+#mobile-menu a:hover, #mobile-menu a.active { color: var(--primary); }
+#mobile-menu .mobile-cta {
+  margin-top: 20px; font-family: var(--ff-headline);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--primary);
+}
+
+/* ============================================
+   SECTION WRAPPER — for non-snap sections
+   ============================================ */
+.section-page {
+  padding-top: 88px; /* nav height */
+}
+
+/* ============================================
+   SCROLL REVEAL
+   ============================================ */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 600ms ease, transform 600ms ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 100ms; }
+.reveal-delay-2 { transition-delay: 200ms; }
+.reveal-delay-3 { transition-delay: 300ms; }
+.reveal-delay-4 { transition-delay: 400ms; }
+
+/* ============================================
+   TECH ICONS (shared)
+   ============================================ */
+.tech-icons {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+}
+.tech-icon-item {
+  display: flex; align-items: center; justify-content: center;
+  padding: 10px;
+  background: var(--surface-container);
+  border: 1px solid rgba(198,200,184,0.25);
+  border-radius: 6px;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  cursor: default;
+}
+.tech-icon-item:hover {
+  background: var(--surface-high);
+  border-color: rgba(138,154,91,0.35);
+  transform: translateY(-2px);
+}
+.tech-icon-item svg { width: 26px; height: 26px; display: block; }
+
+/* Hero icon variant */
+.hero-tech-icon {
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px; background: transparent;
+  border: 1px solid rgba(198,200,184,0.35); border-radius: 6px;
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+}
+.hero-tech-icon:hover {
+  background: var(--surface-container);
+  border-color: rgba(138,154,91,0.4);
+  transform: translateY(-2px);
+}
+.hero-tech-icon svg { width: 20px; height: 20px; display: block; }
+
+/* ============================================
+   GROUPED TECH STACK (hero)
+   ============================================ */
+.tech-stack-groups { display: flex; flex-direction: column; gap: 10px; }
+.tech-group { display: flex; align-items: center; gap: 8px; }
+.tech-group-label {
+  font-family: var(--ff-body); font-size: 12px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(27,28,24,0.3);
+  min-width: 52px; flex-shrink: 0;
+}
+.tech-group-divider {
+  width: 1px; height: 20px;
+  background: rgba(198,200,184,0.4); flex-shrink: 0;
+}
+.tech-group-icons { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ============================================
+   SECTION A — ABOUT / HERO
+   ============================================ */
+#about {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 140px 48px 80px;
+  max-width: 1440px; margin: 0 auto; gap: 80px;
+}
+.hero-left { flex: 1; display: flex; flex-direction: column; gap: 40px; }
+.hero-eyebrow {
+  font-family: var(--ff-body); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--on-surface-variant);
+}
+.hero-name {
+  font-family: var(--ff-display);
+  font-size: clamp(4rem, 9vw, 7.5rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  line-height: 0.92; color: var(--on-surface);
+}
+.hero-body { display: flex; flex-direction: column; gap: 20px; max-width: 480px; }
+.hero-body p { font-size: 1.0625rem; line-height: 1.7; color: var(--on-surface-variant); }
+.btn-primary {
+  display: inline-block; background: var(--primary); color: #fff;
+  font-family: var(--ff-headline); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 16px 32px; border-radius: 2px;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.btn-primary:hover { background: #3e4c16; transform: translateY(-1px); }
+.hero-right { flex: 0 0 420px; position: relative; }
+.hero-image-wrap {
+  width: 100%; aspect-ratio: 3/4;
+  background: var(--surface-low); border-radius: 2px;
+  overflow: hidden; position: relative;
+}
+.hero-image-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(40%) sepia(10%);
+  transition: filter 700ms ease; mix-blend-mode: multiply;
+}
+.hero-image-wrap:hover img { filter: grayscale(0%) sepia(0%); }
+.hero-image-overlay { position: absolute; inset: 0; background: rgba(252,249,242,0.08); }
+.hero-deco {
+  position: absolute; bottom: -32px; left: -32px;
+  width: 180px; height: 180px; background: var(--surface-low);
+  border-radius: 50%; filter: blur(40px); opacity: 0.6; z-index: -1;
+}
+
+/* ============================================
+   SECTION B — PROJECTS (scroll-snap)
+   ============================================ */
+#projects {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Snap container fills the section */
+.projects-snap-container {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.projects-snap-container::-webkit-scrollbar { display: none; }
+
+.project-slide {
+  height: 100vh;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+
+/* Fullscreen image zone */
+.project-image-zone {
+  position: relative; width: 100%; flex: 0 0 72%;
+  overflow: hidden; cursor: zoom-in;
+}
+.project-image-zone img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: grayscale(10%) sepia(5%);
+  transition: filter 600ms ease, transform 600ms ease;
+}
+.project-image-zone:hover img { filter: grayscale(0%) sepia(0%); transform: scale(1.015); }
+.project-image-zone::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--surface));
+  pointer-events: none;
+}
+.image-zoom-hint {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px;
+  background: rgba(252,249,242,0.75); backdrop-filter: blur(8px);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 250ms ease; pointer-events: none;
+}
+.project-image-zone:hover .image-zoom-hint { opacity: 1; }
+.image-zoom-hint span {
+  font-family: 'Material Symbols Outlined'; font-size: 18px;
+  color: var(--on-surface-variant);
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Divider + logo */
+.project-divider { position: relative; width: 100%; height: 0; flex-shrink: 0; }
+.divider-line {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px; background: rgba(198,200,184,0.35);
+}
+.project-logo-wrap {
+  position: absolute; top: 50%; right: 56px;
+  transform: translateY(-50%); z-index: 10;
+}
+.project-logo {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 1px solid rgba(198,200,184,0.4);
+  background: var(--surface-lowest); overflow: hidden;
+  box-shadow: 0 4px 20px rgba(27,28,24,0.1);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+.project-logo:hover { transform: scale(1.06); box-shadow: 0 8px 28px rgba(27,28,24,0.16); }
+.project-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Meta panel */
+.project-meta {
+  flex: 1; width: 100%; max-width: 100%;
+  display: flex; align-items: center;
+  padding: 0 56px; gap: 48px; background: var(--surface);
+}
+.project-meta-left { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.project-number {
+  font-family: var(--ff-headline); font-size: 10px;
+  letter-spacing: 0.14em; color: var(--primary); margin-bottom: 2px;
+}
+.project-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 600; letter-spacing: -0.025em;
+  color: var(--on-surface); line-height: 1.05; margin-bottom: 4px;
+}
+.project-desc {
+  font-size: 0.875rem; line-height: 1.7;
+  color: rgba(27,28,24,0.65); max-width: 520px;
+}
+.project-meta-right {
+  flex: 0 0 auto; display: flex; flex-direction: column;
+  gap: 10px; align-items: flex-end; padding-right: 96px;
+}
+.project-stack-label {
+  font-family: var(--ff-headline); font-size: 9px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(27,28,24,0.35); align-self: flex-start; margin-bottom: 2px;
+}
+
+/* Slide dots */
+.slide-dots {
+  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px; z-index: 50;
+}
+.slide-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--outline-variant);
+  transition: all var(--transition-med); cursor: pointer;
+}
+.slide-dot.active {
+  background: var(--primary-container); height: 20px; border-radius: 2px;
+}
+
+/* Lightbox */
+#lightbox {
+  position: fixed; inset: 0;
+  background: rgba(27,28,24,0.92); backdrop-filter: blur(6px);
+  z-index: 5000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 300ms ease; cursor: zoom-out;
+}
+#lightbox.open { opacity: 1; pointer-events: all; }
+#lightbox img {
+  max-width: 90vw; max-height: 88vh; object-fit: contain;
+  border-radius: 2px; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  transform: scale(0.94);
+  transition: transform 320ms cubic-bezier(0.4,0,0.2,1); display: block;
+}
+#lightbox.open img { transform: scale(1); }
+#lightbox-close {
+  position: absolute; top: 24px; right: 28px;
+  font-family: 'Material Symbols Outlined'; font-size: 28px;
+  color: rgba(252,249,242,0.7); cursor: pointer;
+  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+  transition: color 200ms ease; user-select: none;
+}
+#lightbox-close:hover { color: #fcf9f2; }
+
+/* ============================================
+   SECTION C — LABS
+   ============================================ */
+#labs {
+  padding: 140px 48px 80px;
+  max-width: 1440px; margin: 0 auto;
+}
+.labs-header { margin-bottom: 96px; max-width: 560px; }
+.labs-header h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  color: var(--on-surface); margin-bottom: 24px; line-height: 1;
+}
+.labs-header p { font-size: 1.0625rem; line-height: 1.7; color: var(--on-surface-variant); }
+
+.section-label {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 48px;
+}
+.section-num {
+  font-family: var(--ff-body); font-size: 10px;
+  letter-spacing: 0.1em; color: var(--primary); font-weight: 500;
+}
+.section-title { font-family: var(--ff-headline); font-size: 1.25rem; font-weight: 700; color: var(--on-surface); }
+.section-rule { flex: 1; height: 1px; background: rgba(198,200,184,0.2); margin-left: 24px; }
+
+.certs-section { margin-bottom: 120px; }
+.certs-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+.cert-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 48px 24px; background: var(--surface-lowest);
+  border: 1px solid rgba(198,200,184,0.2); border-radius: 2px; gap: 12px;
+  transition: background var(--transition-med), border-color var(--transition-med);
+  cursor: default;
+}
+.cert-card:hover { background: var(--surface-low); border-color: rgba(138,154,91,0.3); }
+.cert-icon {
+  font-family: 'Material Symbols Outlined'; font-size: 36px;
+  color: rgba(70,72,60,0.3); transition: color var(--transition-med);
+  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+}
+.cert-card:hover .cert-icon { color: var(--primary-container); }
+.cert-name { font-family: var(--ff-headline); font-size: 13px; font-weight: 600; color: var(--on-surface); }
+.cert-issuer { font-family: var(--ff-body); font-size: 11px; color: var(--on-surface-variant); }
+
+.writeups-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.writeup-card {
+  background: var(--surface-lowest);
+  border: 1px solid rgba(198,200,184,0.2); border-radius: 2px;
+  padding: 40px; display: flex; flex-direction: column;
+  justify-content: space-between; gap: 24px;
+  transition: background var(--transition-med);
+}
+.writeup-card:hover { background: var(--surface-high); }
+.writeup-meta { display: flex; justify-content: space-between; align-items: center; }
+.writeup-type {
+  font-family: var(--ff-body); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--primary); font-weight: 500;
+}
+.writeup-date { font-family: var(--ff-body); font-size: 11px; color: var(--on-surface-variant); }
+.writeup-title {
+  font-family: var(--ff-headline); font-size: 1.125rem; font-weight: 600;
+  color: var(--on-surface); margin-top: 8px; margin-bottom: 8px;
+}
+.writeup-desc { font-size: 0.875rem; line-height: 1.65; color: var(--on-surface-variant); }
+.writeup-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--ff-body); font-size: 12px; font-weight: 500; color: var(--primary);
+  transition: opacity var(--transition-fast), gap var(--transition-fast);
+  margin-top: 8px; align-self: flex-start;
+}
+.writeup-link:hover { opacity: 0.65; gap: 10px; }
+.writeup-link .arrow { font-size: 14px; }
+
+/* ============================================
+   SECTION D — CONTACT
+   ============================================ */
+#contact {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 140px 48px 80px;
+  max-width: 1440px; margin: 0 auto;
+}
+.contact-content { max-width: 700px; }
+.contact-title {
+  font-family: var(--ff-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  color: var(--on-surface); line-height: 1; margin-bottom: 32px;
+}
+.contact-sub {
+  font-size: 1.125rem; line-height: 1.7;
+  color: rgba(27,28,24,0.75); max-width: 520px; margin-bottom: 64px;
+}
+.contact-actions { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 12px; padding: 16px 28px;
+  border: 1px solid rgba(86,100,43,0.25); background: var(--surface-lowest);
+  font-family: var(--ff-headline); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-surface);
+  border-radius: 2px;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+.btn-outline:hover { background: var(--surface-low); border-color: rgba(86,100,43,0.5); transform: translateY(-1px); }
+.btn-icon {
+  font-family: 'Material Symbols Outlined'; font-size: 18px; color: var(--primary);
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+.contact-socials { display: flex; gap: 32px; }
+.social-link {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(27,28,24,0.5);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+.social-link:hover { color: var(--primary); transform: translateY(-3px); }
+.social-link .social-icon {
+  font-family: 'Material Symbols Outlined'; font-size: 28px;
+  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+}
+.social-label { font-family: var(--ff-body); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+  background: var(--surface-low);
+  border-top: 1px solid rgba(45,45,45,0.05);
+  padding: 48px; display: flex;
+  justify-content: space-between; align-items: center;
+  gap: 24px; flex-wrap: wrap;
+}
+.footer-copy {
+  font-family: var(--ff-body); font-size: 13px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--primary);
+}
+.footer-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.footer-social-icon {
+  display: flex; align-items: center;
+  color: rgba(45,45,45,0.35);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+.footer-social-icon:hover { color: var(--primary); transform: translateY(-2px); }
+.footer-social-icon svg { width: 24px; height: 24px; fill: currentColor; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .nav-inner { padding: 20px 24px; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+
+  #about {
+    flex-direction: column; padding: 120px 24px 60px;
+    gap: 48px; align-items: flex-start;
+  }
+  .hero-right { flex: none; width: 100%; }
+  .hero-name { font-size: clamp(3.5rem, 14vw, 5.5rem); }
+
+  /* Projects: keep image tappable but layout stays simple */
+  .project-slide { height: 100vh; }
+  .project-image-zone { flex: 0 0 48%; }
+  .project-meta {
+    flex-direction: column; align-items: flex-start;
+    padding: 20px 24px 24px; gap: 16px; overflow-y: auto;
+  }
+  .project-meta-right { align-items: flex-start; padding-right: 0; width: 100%; }
+  .tech-icons { justify-content: flex-start; max-width: 100%; }
+  .project-logo-wrap { right: 24px; }
+  .project-logo { width: 56px; height: 56px; }
+  .slide-dots { display: none; }
+
+  #labs { padding: 120px 24px 60px; }
+  .certs-grid { grid-template-columns: repeat(2,1fr); }
+  .writeups-grid { grid-template-columns: 1fr; }
+
+  #contact { padding: 120px 24px 60px; }
+  .contact-actions { flex-direction: column; align-items: flex-start; gap: 32px; }
+
+  .site-footer { padding: 40px 24px; }
+}
+@media (max-width: 480px) {
+  .certs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cert-card { padding: 32px 16px; }
+  .project-image-zone { flex: 0 0 44%; }
+  .project-title { font-size: 1.5rem; }
+  .project-meta { padding: 16px 20px 20px; }
+}
+  </style>
+</head>
+<body>
+
+  <div id="page-overlay"></div>
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Project image fullscreen">
+    <span id="lightbox-close" aria-label="Close">close</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <!-- =============================================
+       REUSABLE SVG ICON DEFS — defined ONCE here
+       Used anywhere via <svg><use href="#icon-X"/></svg>
+       ============================================= -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Languages -->
+    <symbol id="icon-html"       viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" fill="#E34F26"/></symbol>
+    <symbol id="icon-css"        viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z" fill="#1572B6"/></symbol>
+    <symbol id="icon-js"         viewBox="0 0 24 24"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" fill="#F7DF1E"/></symbol>
+    <symbol id="icon-python"     viewBox="0 0 24 24"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05L0 11.97l.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09-.33.22zM21.1 6.11l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.04zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08-.33.23z" fill="#3776AB"/></symbol>
+    <symbol id="icon-dart"       viewBox="0 0 24 24"><path d="M4.105 4.105S9.158 1.58 11.684.316a3.079 3.079 0 0 1 1.481-.315c.766.047 1.677.788 1.677.788L24 9.948v9.789h-4.263V24H9.789l-9-9c0-.001.259-1.858 3.316-10.895zm.679.679C1.807 12.225 1.312 13.8 1.303 14.087l.073.093L9.881 22.8H19.737v-4.263H24V9.948l-.048.012z" fill="#0175C2"/></symbol>
+    <symbol id="icon-csharp"     viewBox="0 0 24 24"><path d="M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.109-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.077 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z" fill="#239120"/></symbol>
+    <!-- Frontend -->
+    <symbol id="icon-tailwind"   viewBox="0 0 24 24"><path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624C7.666,18.618,9.027,20,12.001,20c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624C10.337,13.382,8.976,12,6.001,12z" fill="#06B6D4"/></symbol>
+    <symbol id="icon-flutter"    viewBox="0 0 24 24"><path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.37zm.159 11.871l-4.184 4.184 4.184 4.159-.014.014H10.9l-4.184-4.172 4.184-4.185h3.573z" fill="#02569B"/></symbol>
+    <!-- Backend -->
+    <symbol id="icon-node"       viewBox="0 0 24 24"><path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.570,0.329,0.924,0.944,0.924,1.603v10.15c0,0.659-0.354,1.275-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z" fill="#339933"/></symbol>
+    <symbol id="icon-express"    viewBox="0 0 24 24"><path d="M24 18.588a1.529 1.529 0 01-1.895-.72l-3.45-4.771-.5-.667-4.003 5.444a1.466 1.466 0 01-1.802.708l5.158-6.92-4.798-6.251a1.595 1.595 0 011.9.666l3.576 4.83 3.596-4.81a1.435 1.435 0 011.788-.668L21.708 7.9l-2.522 3.283a.666.666 0 000 .994l4.804 6.412zM.002 11.576l.42-2.075c1.154-4.103 5.858-5.81 9.094-3.27 1.895 1.489 2.368 3.597 2.275 5.973H1.116C.943 16.447 4.005 19.009 7.92 17.7a4.078 4.078 0 002.582-2.45h1.826a6.028 6.028 0 01-.961 2.278 5.656 5.656 0 01-6.386.158 5.734 5.734 0 01-2.395-3.31l-.443-1.51a5.735 5.735 0 01-.14-1.29zm1.12-.928h8.793c-.119-2.736-1.493-3.938-4.284-3.938-2.807 0-4.143 1.24-4.509 3.938z" fill="#555"/></symbol>
+    <symbol id="icon-aspnet"     viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#512BD4"/><text x="12" y="16" font-size="7" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">.NET</text></symbol>
+    <!-- Databases -->
+    <symbol id="icon-supabase"   viewBox="0 0 24 24"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.131 12.855.71 14.033 1.728 14.033h7.96l.113 8.931c.015.986 1.26 1.41 1.875.637l9.159-11.651C21.469 11.145 20.89 9.967 19.871 9.967h-7.96L11.9 1.036z" fill="#3ECF8E"/></symbol>
+    <symbol id="icon-mysql"      viewBox="0 0 24 24"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.18.214.274.054.107.1.214.154.32l.014-.015c.094-.066.14-.172.14-.333-.04-.047-.046-.094-.08-.133-.04-.048-.107-.08-.182-.159zm5.077 1.491c-.273-.023-.567.015-.81.08-.217.053-.44.147-.596.274.154.013.308.036.434.094.258.107.488.261.69.428l.014.014c.11-.153.21-.313.31-.475.017-.04.03-.08.038-.12.039-.078.066-.16.066-.254-.016-.066-.05-.107-.146-.041zm-8.24-.459C9.404 6.533 5.799 8.56 4.05 11.69c-.45.79-.765 1.664-.765 2.587 0 .888.283 1.733.746 2.477.98 1.587 2.603 2.685 4.392 3.13 1.855.46 3.774.41 5.575-.137.06-.018.12-.038.18-.06.9-.305 1.74-.752 2.463-1.318V18.4c0-.88.3-1.726.8-2.404-.6-.547-1.11-1.197-1.43-1.94-.487-1.112-.5-2.37-.07-3.495l.007-.018c.03-.077.064-.152.1-.226.24-.494.566-.93.96-1.293l.12-.11-.007-.014c-.29-.72-.546-1.44-.74-2.195-.148-.572-.26-1.154-.322-1.748l-.025-.305c-.006-.077-.009-.154-.009-.231 0-.06.003-.12.007-.18l-.027.002zm6.41 12.065c-.3-.027-.606.01-.9.07-.293.062-.576.153-.837.28-.262.125-.49.283-.697.462-.204.18-.376.381-.506.605-.13.224-.208.47-.208.729 0 .26.078.506.21.73.13.224.302.426.506.605.206.18.435.337.697.463.26.126.544.218.837.28.293.062.6.098.9.07a5.04 5.04 0 0 0 .866-.138c.28-.072.548-.173.793-.306.245-.13.465-.295.642-.49.178-.194.313-.42.383-.667.07-.247.073-.51.006-.758-.066-.248-.2-.474-.377-.668-.177-.195-.397-.36-.642-.49-.245-.133-.513-.234-.793-.306a5.04 5.04 0 0 0-.866-.138l-.214-.002z" fill="#4479A1"/></symbol>
+    <symbol id="icon-postgresql" viewBox="0 0 24 24"><path d="M17.128 0a10.134 10.134 0 0 0-2.755.403C13.95.738 13.529.986 13.27 1.26c-1.234-.032-2.465.218-3.635.737-.334-.231-.63-.387-.866-.462C7.3.917 5.987.8 4.953 1.227 3.918 1.654 3.277 2.7 3.163 4.03c-.03.341-.02.69.022 1.043-.707 1.049-.734 2.272-.705 2.887.069 1.496.319 2.52.618 3.322a8.373 8.373 0 0 0 .455.968c.17.307.327.555.462.742.025.49.025.98-.001 1.47 0 .166-.002.333-.004.5-.012.88-.027 1.978.15 2.943.093.504.26.993.576 1.371.315.38.77.607 1.307.607.38 0 .749-.092 1.114-.232.242-.094.5-.202.766-.31.228-.094.507-.21.74-.3a2.466 2.466 0 0 1 .416.164c.217.12.504.365.8.64.271.256.578.533.905.756.328.224.714.41 1.13.415a1.84 1.84 0 0 0 1.25-.466 5.3 5.3 0 0 0 .902-1.126 8.337 8.337 0 0 0 .347-.692l.02-.049c.102-.234.288-.538.467-.8.165-.244.33-.463.463-.592.077.015.151.032.228.052.456.12.838.266 1.166.395.38.15.709.28 1.034.308.325.028.7-.065.988-.345.286-.277.435-.69.498-1.147.128-.927.024-2.302-.014-2.891l-.003-.045c-.023-.382-.025-.77.006-1.153a5.43 5.43 0 0 0 .465-.733c.235-.446.481-1.04.645-1.744.293-1.272.301-2.943-.236-4.675a1.97 1.97 0 0 0-.015-.044c.02-.278.03-.555.028-.828.007-1.29-.24-2.355-.792-3.062C19.793.492 18.54 0 17.128 0z" fill="#336791"/></symbol>
+    <symbol id="icon-sqlite"     viewBox="0 0 24 24"><path d="M21.678.521C20.467-.103 19.141.016 17.87.71c-1.027.563-1.908 1.542-2.555 2.773-.9 1.714-1.35 3.837-1.291 5.894-1.66 2.8-2.924 6.074-3.674 9.189-.504-1.069-1.124-1.89-1.836-2.323-.898-.545-1.824-.495-2.656.076C4.29 17.41 3.294 19.577 3.47 21.73c.077.925.376 1.713.839 2.237.461.521 1.062.762 1.757.665.945-.131 2.107-.888 3.516-3.08C10.827 23.51 12.8 24 14.75 24c1.186 0 2.355-.248 3.358-.796 2.14-1.175 3.393-3.467 3.22-5.973-.107-1.575-.702-2.841-1.698-3.671 1.225-2.967 2.043-6.37 2.238-9.321.198-2.976-.253-5.435-1.19-6.718z" fill="#003B57"/></symbol>
+    <symbol id="icon-access"     viewBox="0 0 24 24"><rect width="24" height="24" rx="2" fill="#A4373A"/><text x="12" y="16" font-size="9" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">AC</text></symbol>
+    <!-- Tools -->
+    <symbol id="icon-git"        viewBox="0 0 24 24"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.604-.404-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187" fill="#F05032"/></symbol>
+    <symbol id="icon-docker"     viewBox="0 0 24 24"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.186.186 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.185.186v1.887c0 .102.083.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z" fill="#2496ED"/></symbol>
+    <symbol id="icon-linux"      viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.09-2.346 2.85-2.765 4.605-.17.767-.24 1.57.054 2.235.328.775 1.01 1.4 1.975 1.7 1.082.338 1.893.166 2.61-.284.59-.37 1.04-.97 1.45-1.535.273-.375.57-.748.898-1.06.315-.305.696-.54 1.1-.674.425-.142.88-.178 1.332-.1.453.076.9.27 1.282.56.382.29.7.665.935 1.075.237.41.393.86.46 1.32.068.458.047.925-.065 1.377l-.005.02c-.187.78-.574 1.51-1.1 2.08-.526.573-1.19.987-1.896 1.21a3.84 3.84 0 0 1-2.07.108 3.872 3.872 0 0 1-1.77-1.1 3.914 3.914 0 0 1-.86-1.91 4.04 4.04 0 0 1 .01-1.066l-.008.002c-.24.734-.19 1.558.12 2.326.31.77.875 1.43 1.602 1.9.727.466 1.605.72 2.497.72.89 0 1.77-.254 2.495-.72.727-.47 1.29-1.13 1.602-1.9.31-.768.36-1.592.12-2.326a5.087 5.087 0 0 0-.26-.647c-.22-.45-.52-.85-.876-1.178a3.726 3.726 0 0 0-1.215-.745 3.808 3.808 0 0 0-1.458-.194c-.5.027-.99.158-1.43.384-.44.226-.826.544-1.143.927-.32.383-.573.824-.754 1.295l-.004.01c-.09.235-.162.474-.215.718l-.003.012c-.1.484-.112.99-.03 1.486.08.497.263.98.54 1.406.277.427.647.793 1.08 1.063.434.27.923.44 1.427.49.503.05 1.016-.016 1.494-.197.478-.18.912-.473 1.255-.855.344-.382.597-.844.735-1.348.14-.504.16-1.046.063-1.567a3.74 3.74 0 0 0-.63-1.453 3.766 3.766 0 0 0-1.124-.994 3.553 3.553 0 0 0-1.45-.435 3.477 3.477 0 0 0-1.524.218c-.483.19-.91.5-1.244.89-.334.39-.572.855-.69 1.356-.12.502-.114 1.03.016 1.535.13.505.377.98.725 1.376.348.396.79.706 1.285.9.495.193 1.035.267 1.57.216.534-.05 1.05-.24 1.49-.556.44-.315.793-.746 1.008-1.244.215-.498.293-1.06.224-1.597-.067-.536-.278-1.05-.61-1.476a3.745 3.745 0 0 0-1.265-.974 3.553 3.553 0 0 0-1.49-.662c-.54-.09-1.098-.033-1.607.165-.51.2-.956.534-1.296.966-.34.43-.567.943-.66 1.49-.092.545-.046 1.112.133 1.636.178.524.487.997.896 1.37.41.373.914.64 1.455.775.54.135 1.107.135 1.647 0 .54-.135 1.044-.402 1.454-.775.41-.373.718-.846.896-1.37.18-.524.225-1.09.133-1.636-.093-.547-.32-1.06-.66-1.49-.34-.432-.786-.766-1.296-.966-.51-.198-1.067-.255-1.607-.165-.537.09-1.055.318-1.49.662z" fill="#FCC624"/></symbol>
+    <symbol id="icon-npm"        viewBox="0 0 24 24"><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z" fill="#CB3837"/></symbol>
+    <symbol id="icon-render"     viewBox="0 0 24 24"><path d="M4.49 20.35a11.88 11.88 0 010-16.7 11.88 11.88 0 0116.7 0 11.88 11.88 0 010 16.7 11.88 11.88 0 01-16.7 0zM12 2.1a9.9 9.9 0 100 19.8A9.9 9.9 0 0012 2.1zm-.9 15.3V6.6l7.2 5.4-7.2 5.4z" fill="#46E3B7"/></symbol>
+    <!-- Mobile -->
+    <symbol id="icon-isar"       viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#3E64FF"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">ISR</text></symbol>
+    <symbol id="icon-gemini"     viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="#4285F4"/></symbol>
+    <!-- Shared footer SVGs -->
+    <symbol id="icon-email"      viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></symbol>
+    <symbol id="icon-github"     viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="icon-linkedin"   viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+    <symbol id="icon-facebook"   viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></symbol>
+  </svg>
+
+  <!-- =============================================
+       TOP NAV
+       ============================================= -->
+  <nav id="top-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#about" class="nav-logo">Aqxamid</a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about"    class="active">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">Let's Talk</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" aria-hidden="true">
+    <a href="#about"    class="active">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#labs">Labs</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="mobile-cta">Let's Talk →</a>
+  </div>
+
+  <!-- =============================================
+       SECTION A — ABOUT
+       ============================================= -->
+  <section id="about">
+    <div class="hero-left">
+      <div>
+        <p class="hero-eyebrow reveal">Information Technology Student &amp; Developer</p>
+        <h1 class="hero-name reveal reveal-delay-1">Allen Ronn<br>Parado</h1>
+      </div>
+
+      <div class="hero-body reveal reveal-delay-2">
+        <p>A student with a passion for building things that are both secure and purposeful.</p>
+      </div>
+
+      <!-- Grouped tech stack -->
+      <div class="tech-stack-groups reveal reveal-delay-3">
+        <div class="tech-group">
+          <span class="tech-group-label">Lang</span>
+          <div class="tech-group-divider"></div>
+          <div class="tech-group-icons">
+            <div class="hero-tech-icon" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
+            <div class="hero-tech-icon" title="Python"><svg><use href="#icon-python"/></svg></div>
+            <div class="hero-tech-icon" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+            <div class="hero-tech-icon" title="C#"><svg><use href="#icon-csharp"/></svg></div>
+          </div>
+        </div>
+        <div class="tech-group">
+          <span class="tech-group-label">Frontend</span>
+          <div class="tech-group-divider"></div>
+          <div class="tech-group-icons">
+            <div class="hero-tech-icon" title="HTML"><svg><use href="#icon-html"/></svg></div>
+            <div class="hero-tech-icon" title="CSS"><svg><use href="#icon-css"/></svg></div>
+            <div class="hero-tech-icon" title="Tailwind CSS"><svg><use href="#icon-tailwind"/></svg></div>
+            <div class="hero-tech-icon" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+          </div>
+        </div>
+        <div class="tech-group">
+          <span class="tech-group-label">Backend</span>
+          <div class="tech-group-divider"></div>
+          <div class="tech-group-icons">
+            <div class="hero-tech-icon" title="Node.js"><svg><use href="#icon-node"/></svg></div>
+            <div class="hero-tech-icon" title="Express"><svg><use href="#icon-express"/></svg></div>
+            <div class="hero-tech-icon" title="ASP.NET"><svg><use href="#icon-aspnet"/></svg></div>
+          </div>
+        </div>
+        <div class="tech-group">
+          <span class="tech-group-label">DB</span>
+          <div class="tech-group-divider"></div>
+          <div class="tech-group-icons">
+            <div class="hero-tech-icon" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
+            <div class="hero-tech-icon" title="MySQL"><svg><use href="#icon-mysql"/></svg></div>
+            <div class="hero-tech-icon" title="Microsoft Access"><svg><use href="#icon-access"/></svg></div>
+          </div>
+        </div>
+        <div class="tech-group">
+          <span class="tech-group-label">Tools</span>
+          <div class="tech-group-divider"></div>
+          <div class="tech-group-icons">
+            <div class="hero-tech-icon" title="Git"><svg><use href="#icon-git"/></svg></div>
+            <div class="hero-tech-icon" title="Docker"><svg><use href="#icon-docker"/></svg></div>
+            <div class="hero-tech-icon" title="Linux"><svg><use href="#icon-linux"/></svg></div>
+            <div class="hero-tech-icon" title="NPM"><svg><use href="#icon-npm"/></svg></div>
+            <div class="hero-tech-icon" title="Render"><svg><use href="#icon-render"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-4">
+        <a href="#projects" class="btn-primary">View Archive</a>
+      </div>
+    </div>
+
+    <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-image-wrap">
+        <img src="assets/me.JPG" alt="Allen Ronn Parado" loading="eager" />
+        <div class="hero-image-overlay"></div>
+      </div>
+      <div class="hero-deco"></div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       SECTION B — PROJECTS
+       ============================================= -->
+  <section id="projects">
+    <!-- Slide dots -->
+    <div class="slide-dots" aria-hidden="true">
+      <div class="slide-dot active"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
+    </div>
+
+    <div class="projects-snap-container" id="projects-container">
+
+      <!-- 01: SecureLabs -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="/assets/showcase/securelabs.png" alt="SecureLabs" loading="eager" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/securelabs.png" alt="SecureLabs logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">01</p>
+            <h2 class="project-title">SecureLabs</h2>
+            <p class="project-desc">A cybersecurity training platform with isolated Docker labs. 
+              Learn cybersecurity concepts through hands-on exercises. By simulating real-world scenarios, 
+              users can practice identifying and mitigating various security vulnerabilities.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
+              <div class="tech-icon-item" title="CSS"><svg><use href="#icon-css"/></svg></div>
+              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
+              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
+              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
+              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
+              <div class="tech-icon-item" title="Docker"><svg><use href="#icon-docker"/></svg></div>
+              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
+              <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02: CCTPinion -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="/assets/showcase/cctpinion.png" alt="CCTPinion" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/cctpinion.png" alt="CCTPinion logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">02</p>
+            <h2 class="project-title">CCTPinion</h2>
+            <p class="project-desc">A school freedom wall and helpdesk platform for City College of Tagaytay. 
+              Tamper-evident ticket chains, and automatic moderation profanity filter.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
+              <div class="tech-icon-item" title="CSS"><svg><use href="#icon-css"/></svg></div>
+              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
+              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
+              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
+              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
+              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
+              <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03: Brewsko -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="/assets/showcase/brewsko.png" alt="Brewsko Payroll" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/brewsko.png" alt="Brewsko Payroll logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">03</p>
+            <h2 class="project-title">Brewsko Payroll</h2>
+            <p class="project-desc">A web-based payroll and attendance management system for 
+              Mr. Brewsko staff. PIN kiosk clock-in/out, automated payroll computation, printable payslips, 
+              and an owner dashboard with daily and historical attendance views.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
+              <div class="tech-icon-item" title="Tailwind"><svg><use href="#icon-tailwind"/></svg></div>
+              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
+              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
+              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
+              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
+              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
+              <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04: SecureVault -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="https://placehold.co/1920x1080" alt="SecureVault" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/securevault.png" alt="SecureVault logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">04</p>
+            <h2 class="project-title">SecureVault</h2>
+            <p class="project-desc">A fully offline, encrypted password manager and secure notepad 
+              for Android.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+              <div class="tech-icon-item" title="SQLite"><svg><use href="#icon-sqlite"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05: Bop -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="https://placehold.co/1920x1080" alt="Bop" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/bop.png" alt="Bop logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">05</p>
+            <h2 class="project-title">Bop</h2>
+            <p class="project-desc">An offline-first music player for Android with on-device 
+              AI recaps powered by local GGUF LLM support. Synced lyrics, listening stats, 
+              Wrapped-style slideshows, smart playlist curation, and persistent caching.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+              <div class="tech-icon-item" title="Isar"><svg><use href="#icon-isar"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 06: Word Wipeout -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="https://placehold.co/1920x1080" alt="Word Wipeout" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/wipeout.png" alt="Word Wipeout logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">06</p>
+            <h2 class="project-title">Word Wipeout</h2>
+            <p class="project-desc">An offline-first word puzzle game for Android with Classic, 
+              Rage Bait, and Custom modes.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 07: Cody -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="https://placehold.co/1920x1080" alt="Cody" loading="lazy" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/cody.png" alt="Cody logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">07</p>
+            <h2 class="project-title">Cody</h2>
+            <p class="project-desc">A mobile competitive programming platform designed for practicing competitive programming.</p>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /projects-snap-container -->
+  </section>
+
+  <!-- =============================================
+       SECTION C — LABS
+       ============================================= -->
+  <section id="labs">
+    <div class="labs-header">
+      <h2 class="reveal">The Lab</h2>
+      <p class="reveal reveal-delay-1">A curated collection of practical security research, certifications, and methodical write-ups. Exploring the architecture of vulnerabilities.</p>
+    </div>
+
+    <section class="certs-section">
+      <div class="section-label reveal">
+        <span class="section-num">01</span>
+        <h3 class="section-title">Certifications</h3>
+        <div class="section-rule"></div>
+      </div>
+      <div class="certs-grid">
+        <div class="cert-card reveal"><span class="cert-icon">shield</span><span class="cert-name">OSCP</span><span class="cert-issuer">Offensive Security</span></div>
+        <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">cloud</span><span class="cert-name">AWS Security</span><span class="cert-issuer">Specialty</span></div>
+        <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">terminal</span><span class="cert-name">eCPPT</span><span class="cert-issuer">eLearnSecurity</span></div>
+        <div class="cert-card reveal reveal-delay-3"><span class="cert-icon">verified_user</span><span class="cert-name">CISA</span><span class="cert-issuer">ISACA</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label reveal">
+        <span class="section-num">02</span>
+        <h3 class="section-title">Write-ups</h3>
+        <div class="section-rule"></div>
+      </div>
+      <div class="writeups-grid">
+        <article class="writeup-card reveal">
+          <div>
+            <div class="writeup-meta"><span class="writeup-type">Web Exploitation</span><span class="writeup-date">Oct 12, 2023</span></div>
+            <h4 class="writeup-title">HackTheBox: Arctic</h4>
+            <p class="writeup-desc">A methodical approach to bypassing basic filters and exploiting an unpatched ColdFusion server, leading to privilege escalation via scheduled tasks.</p>
+          </div>
+          <a href="#" class="writeup-link">Read Write-up <span class="arrow">→</span></a>
+        </article>
+        <article class="writeup-card reveal reveal-delay-1">
+          <div>
+            <div class="writeup-meta"><span class="writeup-type">Binary Analysis</span><span class="writeup-date">Sep 28, 2023</span></div>
+            <h4 class="writeup-title">Defcon Quals: ROP Chain</h4>
+            <p class="writeup-desc">Dissecting a custom binary to identify a buffer overflow, followed by constructing a robust Return-Oriented Programming chain to bypass NX.</p>
+          </div>
+          <a href="#" class="writeup-link">Read Write-up <span class="arrow">→</span></a>
+        </article>
+        <article class="writeup-card reveal">
+          <div>
+            <div class="writeup-meta"><span class="writeup-type">XXE Injection</span><span class="writeup-date">Aug 15, 2023</span></div>
+            <h4 class="writeup-title">VulnHub: XML Parser</h4>
+            <p class="writeup-desc">Leveraging an insecurely configured XML parser to exfiltrate local files and achieve Server-Side Request Forgery on an internal network.</p>
+          </div>
+          <a href="#" class="writeup-link">Read Write-up <span class="arrow">→</span></a>
+        </article>
+        <article class="writeup-card reveal reveal-delay-1">
+          <div>
+            <div class="writeup-meta"><span class="writeup-type">Active Directory</span><span class="writeup-date">Jul 02, 2023</span></div>
+            <h4 class="writeup-title">Proving Grounds: Heist</h4>
+            <p class="writeup-desc">Exploiting a weak Kerberos configuration to execute a Kerberoasting attack, extracting service tickets and pivoting to domain admin.</p>
+          </div>
+          <a href="#" class="writeup-link">Read Write-up <span class="arrow">→</span></a>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- =============================================
+       SECTION D — CONTACT
+       ============================================= -->
+  <section id="contact">
+    <div class="contact-content">
+      <h2 class="contact-title reveal">Let's build<br>something.</h2>
+      <p class="contact-sub reveal reveal-delay-1">Ready to elevate your digital infrastructure with robust, elegantly engineered solutions? Reach out to start a conversation about your next project.</p>
+      <div class="contact-actions reveal reveal-delay-2">
+        <a href="assets/resume.pdf" download class="btn-outline">
+          <span class="btn-icon">download</span>
+          Download Resume
+        </a>
+        <div class="contact-socials">
+          <a href="mailto:contact.allenparado@gmail.com" class="social-link" aria-label="Email">
+            <span class="social-icon">mail</span><span class="social-label">Email</span>
+          </a>
+          <a href="https://www.linkedin.com/in/allen-ronn-parado-846981383/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+            <span class="social-icon">link</span><span class="social-label">LinkedIn</span>
+          </a>
+          <a href="https://github.com/Aqxamid" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+            <span class="social-icon">code</span><span class="social-label">GitHub</span>
+          </a>
+          <a href="https://www.facebook.com/EQX.Aquarius.02" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+            <span class="social-icon">person</span><span class="social-label">Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer class="site-footer">
+    <span class="footer-copy">© <span id="footer-year">2025</span> Allen Ronn Parado</span>
+    <ul class="footer-links" role="list">
+      <li><a href="mailto:contact.allenparado@gmail.com" class="footer-social-icon" aria-label="Email"><svg><use href="#icon-email"/></svg></a></li>
+      <li><a href="https://github.com/Aqxamid" target="_blank" rel="noopener" class="footer-social-icon" aria-label="GitHub"><svg><use href="#icon-github"/></svg></a></li>
+      <li><a href="https://www.linkedin.com/in/allen-ronn-parado-846981383/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></li>
+      <li><a href="https://www.facebook.com/EQX.Aquarius.02" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Facebook"><svg><use href="#icon-facebook"/></svg></a></li>
+    </ul>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Project image fullscreen">
+    <span id="lightbox-close" aria-label="Close">close</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <script>
+/* ============================================
+   PORTFOLIO.HTML — SINGLE-PAGE JS
+   ============================================ */
+(function () {
+  'use strict';
+
+  /* ── PROGRESS BAR ─── */
+  function initProgressBar() {
+    const fill = document.getElementById('progress-fill');
+    if (!fill) return;
+    window.addEventListener('scroll', () => {
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const pct = scrollHeight - clientHeight > 0
+        ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
+      fill.style.height = pct + '%';
+    });
+  }
+
+  /* ── NAV ACTIVE ON SCROLL ─── */
+  function initNavHighlight() {
+    const nav = document.getElementById('top-nav');
+    const links = document.querySelectorAll('.nav-links a');
+    const sections = ['about','projects','labs','contact'].map(id => document.getElementById(id));
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+      let current = 'about';
+      sections.forEach(s => { if (s && window.scrollY >= s.offsetTop - 120) current = s.id; });
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    }, { passive: true });
+  }
+
+  /* ── MOBILE MENU ─── */
+  function initMobileMenu() {
+    const burger = document.getElementById('nav-hamburger');
+    const menu   = document.getElementById('mobile-menu');
+    if (!burger || !menu) return;
+    let open = false;
+    function toggle() {
+      open = !open;
+      burger.classList.toggle('open', open);
+      menu.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    burger.addEventListener('click', toggle);
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => open && toggle()));
+  }
+
+  /* ── SCROLL REVEAL ─── */
+  function initScrollReveal() {
+    const els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => obs.observe(el));
+  }
+
+  /* ── PROJECT SLIDE DOTS ─── */
+  function initSlideDots() {
+    const container = document.getElementById('projects-container');
+    const dots      = document.querySelectorAll('.slide-dot');
+    const slides    = document.querySelectorAll('.project-slide');
+    if (!container || !dots.length || !slides.length) return;
+
+    function updateDots() {
+      const active = Math.round(container.scrollTop / container.clientHeight);
+      dots.forEach((d, i) => d.classList.toggle('active', i === active));
+    }
+    container.addEventListener('scroll', updateDots, { passive: true });
+    updateDots();
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => container.scrollTo({ top: i * container.clientHeight, behavior: 'smooth' }));
+    });
+  }
+
+  /* ── LIGHTBOX ─── */
+  function initLightbox() {
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn    = document.getElementById('lightbox-close');
+    if (!lightbox) return;
+
+    function open(src, alt) {
+      lightboxImg.src = src; lightboxImg.alt = alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { lightboxImg.src = ''; }, 300);
+    }
+    document.querySelectorAll('.project-image-zone').forEach(zone => {
+      zone.addEventListener('click', () => {
+        const img = zone.querySelector('img');
+        open(img.src, img.alt);
+      });
+    });
+    closeBtn.addEventListener('click', close);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) close(); });
+  }
+
+  /* ── FOOTER YEAR ─── */
+  function initFooterYear() {
+    const el = document.getElementById('footer-year');
+    if (el) el.textContent = new Date().getFullYear();
+  }
+
+  /* ── SMOOTH NAV SCROLL (override default anchor jump) ─── */
+  function initSmoothNav() {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initFooterYear();
+    initProgressBar();
+    initNavHighlight();
+    initMobileMenu();
+    initScrollReveal();
+    initSlideDots();
+    initLightbox();
+    initSmoothNav();
+  });
+})();
+  </script>
+</body>
+</html>
