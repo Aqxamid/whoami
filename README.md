@@ -1,5 +1,7 @@
 # whoami
 
+🌐 **Portfolio:** https://aquamid.onrender.com/
+
 I’m an aspiring IT enthusiast exploring coding, software development, and all things tech.
 Learning, experimenting, and building — one commit at a time.
 
