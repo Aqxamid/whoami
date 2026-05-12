@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Afacad:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 
   <style>
@@ -78,6 +79,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 100%; height: 0%;
   background: var(--primary-container);
   transition: height 80ms linear; transform-origin: top;
+  will-change: height;
 }
 
 /* ============================================
@@ -175,53 +177,86 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    TECH ICONS (shared)
    ============================================ */
 .tech-icons {
-  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
 }
 .tech-icon-item {
   display: flex; align-items: center; justify-content: center;
-  padding: 10px;
+  width: 56px; height: 56px;
   background: var(--surface-container);
-  border: 1px solid rgba(198,200,184,0.25);
-  border-radius: 6px;
-  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  border: 1px solid rgba(198,200,184,0.35);
+  border-radius: 12px;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
   cursor: default;
+  box-shadow: 0 2px 6px rgba(27,28,24,0.06);
 }
 .tech-icon-item:hover {
   background: var(--surface-high);
-  border-color: rgba(138,154,91,0.35);
-  transform: translateY(-2px);
+  border-color: rgba(138,154,91,0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(27,28,24,0.10);
 }
-.tech-icon-item svg { width: 26px; height: 26px; display: block; }
+/* Target the <i> icon font element directly */
+.tech-icon-item i {
+  font-size: 30px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  will-change: transform;
+}
+.tech-icon-item svg {
+  width: 30px; height: 30px;
+  display: block; flex-shrink: 0;
+}
 
 /* Hero icon variant */
 .hero-tech-icon {
   display: flex; align-items: center; justify-content: center;
-  padding: 8px; background: transparent;
-  border: 1px solid rgba(198,200,184,0.35); border-radius: 6px;
-  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+  width: 48px; height: 48px;
+  background: var(--surface-container);
+  border: 1px solid rgba(198,200,184,0.35);
+  border-radius: 10px;
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(27,28,24,0.06);
 }
 .hero-tech-icon:hover {
-  background: var(--surface-container);
+  background: var(--surface-high);
   border-color: rgba(138,154,91,0.4);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(27,28,24,0.10);
 }
-.hero-tech-icon svg { width: 20px; height: 20px; display: block; }
+/* Target the <i> icon font element directly */
+.hero-tech-icon i {
+  font-size: 26px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+}
+.hero-tech-icon svg {
+  width: 26px; height: 26px;
+  display: block; flex-shrink: 0;
+}
 
 /* ============================================
    GROUPED TECH STACK (hero)
    ============================================ */
-.tech-stack-groups { display: flex; flex-direction: column; gap: 10px; }
-.tech-group { display: flex; align-items: center; gap: 8px; }
+.tech-stack-groups { display: flex; flex-direction: column; gap: 12px; }
+.tech-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .tech-group-label {
-  font-family: var(--ff-body); font-size: 12px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(27,28,24,0.3);
-  min-width: 52px; flex-shrink: 0;
+  font-family: var(--ff-body); font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(27,28,24,0.65);
+  min-width: 72px; flex-shrink: 0;
 }
 .tech-group-divider {
   width: 1px; height: 20px;
   background: rgba(198,200,184,0.4); flex-shrink: 0;
 }
-.tech-group-icons { display: flex; flex-wrap: wrap; gap: 6px; }
+.tech-group-icons { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 
 /* ============================================
    SECTION A — ABOUT / HERO
@@ -288,6 +323,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
+  will-change: scroll-position;
 }
 .projects-snap-container::-webkit-scrollbar { display: none; }
 
@@ -370,6 +406,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 0.875rem; line-height: 1.7;
   color: rgba(27,28,24,0.65); max-width: 520px;
 }
+.project-link {
+  font-size: 1rem; font-weight: 500; color: var(--primary);
+}
 .project-meta-right {
   flex: 0 0 auto; display: flex; flex-direction: column;
   gap: 10px; align-items: flex-end; padding-right: 96px;
@@ -446,23 +485,51 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .section-rule { flex: 1; height: 1px; background: rgba(198,200,184,0.2); margin-left: 24px; }
 
 .certs-section { margin-bottom: 120px; }
-.certs-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
-.cert-card {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 48px 24px; background: var(--surface-lowest);
-  border: 1px solid rgba(198,200,184,0.2); border-radius: 2px; gap: 12px;
-  transition: background var(--transition-med), border-color var(--transition-med);
-  cursor: default;
+.certs-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--outline-variant) transparent;
+  padding-bottom: 12px;
+  cursor: grab;
 }
-.cert-card:hover { background: var(--surface-low); border-color: rgba(138,154,91,0.3); }
-.cert-icon {
-  font-family: 'Material Symbols Outlined'; font-size: 36px;
-  color: rgba(70,72,60,0.3); transition: color var(--transition-med);
-  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+.certs-scroll:active { cursor: grabbing; }
+.certs-scroll::-webkit-scrollbar { height: 4px; }
+.certs-scroll::-webkit-scrollbar-track { background: transparent; }
+.certs-scroll::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 2px; }
+.cert-img-card {
+  flex: 0 0 320px;
+  height: 220px;
+  border-radius: 4px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  position: relative;
+  border: 1px solid rgba(198,200,184,0.2);
+  background: var(--surface-low);
+  transition: transform var(--transition-med), box-shadow var(--transition-med);
 }
-.cert-card:hover .cert-icon { color: var(--primary-container); }
-.cert-name { font-family: var(--ff-headline); font-size: 13px; font-weight: 600; color: var(--on-surface); }
-.cert-issuer { font-family: var(--ff-body); font-size: 11px; color: var(--on-surface-variant); }
+.cert-img-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(27,28,24,0.12);
+}
+.cert-img-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-med);
+}
+.cert-img-card:hover img { transform: scale(1.04); }
+.cert-img-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 14px;
+  background: linear-gradient(to top, rgba(27,28,24,0.7) 0%, transparent 100%);
+  font-family: var(--ff-headline); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(252,249,242,0.9);
+}
 
 .writeups-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .writeup-card {
@@ -650,6 +717,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <symbol id="icon-linux"      viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.09-2.346 2.85-2.765 4.605-.17.767-.24 1.57.054 2.235.328.775 1.01 1.4 1.975 1.7 1.082.338 1.893.166 2.61-.284.59-.37 1.04-.97 1.45-1.535.273-.375.57-.748.898-1.06.315-.305.696-.54 1.1-.674.425-.142.88-.178 1.332-.1.453.076.9.27 1.282.56.382.29.7.665.935 1.075.237.41.393.86.46 1.32.068.458.047.925-.065 1.377l-.005.02c-.187.78-.574 1.51-1.1 2.08-.526.573-1.19.987-1.896 1.21a3.84 3.84 0 0 1-2.07.108 3.872 3.872 0 0 1-1.77-1.1 3.914 3.914 0 0 1-.86-1.91 4.04 4.04 0 0 1 .01-1.066l-.008.002c-.24.734-.19 1.558.12 2.326.31.77.875 1.43 1.602 1.9.727.466 1.605.72 2.497.72.89 0 1.77-.254 2.495-.72.727-.47 1.29-1.13 1.602-1.9.31-.768.36-1.592.12-2.326a5.087 5.087 0 0 0-.26-.647c-.22-.45-.52-.85-.876-1.178a3.726 3.726 0 0 0-1.215-.745 3.808 3.808 0 0 0-1.458-.194c-.5.027-.99.158-1.43.384-.44.226-.826.544-1.143.927-.32.383-.573.824-.754 1.295l-.004.01c-.09.235-.162.474-.215.718l-.003.012c-.1.484-.112.99-.03 1.486.08.497.263.98.54 1.406.277.427.647.793 1.08 1.063.434.27.923.44 1.427.49.503.05 1.016-.016 1.494-.197.478-.18.912-.473 1.255-.855.344-.382.597-.844.735-1.348.14-.504.16-1.046.063-1.567a3.74 3.74 0 0 0-.63-1.453 3.766 3.766 0 0 0-1.124-.994 3.553 3.553 0 0 0-1.45-.435 3.477 3.477 0 0 0-1.524.218c-.483.19-.91.5-1.244.89-.334.39-.572.855-.69 1.356-.12.502-.114 1.03.016 1.535.13.505.377.98.725 1.376.348.396.79.706 1.285.9.495.193 1.035.267 1.57.216.534-.05 1.05-.24 1.49-.556.44-.315.793-.746 1.008-1.244.215-.498.293-1.06.224-1.597-.067-.536-.278-1.05-.61-1.476a3.745 3.745 0 0 0-1.265-.974 3.553 3.553 0 0 0-1.49-.662c-.54-.09-1.098-.033-1.607.165-.51.2-.956.534-1.296.966-.34.43-.567.943-.66 1.49-.092.545-.046 1.112.133 1.636.178.524.487.997.896 1.37.41.373.914.64 1.455.775.54.135 1.107.135 1.647 0 .54-.135 1.044-.402 1.454-.775.41-.373.718-.846.896-1.37.18-.524.225-1.09.133-1.636-.093-.547-.32-1.06-.66-1.49-.34-.432-.786-.766-1.296-.966-.51-.198-1.067-.255-1.607-.165-.537.09-1.055.318-1.49.662z" fill="#FCC624"/></symbol>
     <symbol id="icon-npm"        viewBox="0 0 24 24"><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z" fill="#CB3837"/></symbol>
     <symbol id="icon-render"     viewBox="0 0 24 24"><path d="M4.49 20.35a11.88 11.88 0 010-16.7 11.88 11.88 0 0116.7 0 11.88 11.88 0 010 16.7 11.88 11.88 0 01-16.7 0zM12 2.1a9.9 9.9 0 100 19.8A9.9 9.9 0 0012 2.1zm-.9 15.3V6.6l7.2 5.4-7.2 5.4z" fill="#46E3B7"/></symbol>
+    <symbol id="icon-vercel"     viewBox="0 0 24 24"><path d="M12 2L2 20h20L12 2z" fill="#000"/></symbol>
+    <symbol id="icon-react"      viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.05" fill="#61DAFB"/><path d="M12 2.05s3.35 1.5 5.79 3.37c2.45 1.87 3.96 4.34 3.96 6.58 0 2.24-1.51 4.71-3.96 6.58C15.35 20.45 12 22 12 22s-3.35-1.5-5.79-3.37C3.76 17.75 2.25 15.28 2.25 13.04c0-2.24 1.51-4.71 3.96-6.58C8.65 3.55 12 2.05 12 2.05z" fill="none" stroke="#61DAFB" stroke-width="1.8"/><path d="M2.25 11.99h19.5" fill="none" stroke="#61DAFB" stroke-width="1.8"/></symbol>
+    <symbol id="icon-vite"       viewBox="0 0 24 24"><path d="M7.2 2L1 14.2h6l-1 7.8L17 10h-6l1-8H7.2z" fill="#646cff"/></symbol>
     <!-- Mobile -->
     <symbol id="icon-isar"       viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#3E64FF"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">ISR</text></symbol>
     <symbol id="icon-gemini"     viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="#4285F4"/></symbol>
@@ -708,37 +778,37 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <span class="tech-group-label">Lang</span>
           <div class="tech-group-divider"></div>
           <div class="tech-group-icons">
-            <div class="hero-tech-icon" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
-            <div class="hero-tech-icon" title="Python"><svg><use href="#icon-python"/></svg></div>
-            <div class="hero-tech-icon" title="Dart"><svg><use href="#icon-dart"/></svg></div>
-            <div class="hero-tech-icon" title="C#"><svg><use href="#icon-csharp"/></svg></div>
+            <div class="hero-tech-icon" title="JavaScript"><i class="devicon-javascript-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Python"><i class="devicon-python-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Dart"><i class="devicon-dart-plain colored"></i></div>
+            <div class="hero-tech-icon" title="C#"><i class="devicon-csharp-plain colored"></i></div>
           </div>
         </div>
         <div class="tech-group">
           <span class="tech-group-label">Frontend</span>
           <div class="tech-group-divider"></div>
           <div class="tech-group-icons">
-            <div class="hero-tech-icon" title="HTML"><svg><use href="#icon-html"/></svg></div>
-            <div class="hero-tech-icon" title="CSS"><svg><use href="#icon-css"/></svg></div>
-            <div class="hero-tech-icon" title="Tailwind CSS"><svg><use href="#icon-tailwind"/></svg></div>
-            <div class="hero-tech-icon" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
+            <div class="hero-tech-icon" title="HTML"><i class="devicon-html5-plain colored"></i></div>
+            <div class="hero-tech-icon" title="CSS"><i class="devicon-css3-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Tailwind CSS"><i class="devicon-tailwindcss-plain colored"></i></div>
+            <div class="hero-tech-icon" title="React"><i class="devicon-react-original colored"></i></div>
           </div>
         </div>
         <div class="tech-group">
           <span class="tech-group-label">Backend</span>
           <div class="tech-group-divider"></div>
           <div class="tech-group-icons">
-            <div class="hero-tech-icon" title="Node.js"><svg><use href="#icon-node"/></svg></div>
-            <div class="hero-tech-icon" title="Express"><svg><use href="#icon-express"/></svg></div>
-            <div class="hero-tech-icon" title="ASP.NET"><svg><use href="#icon-aspnet"/></svg></div>
+            <div class="hero-tech-icon" title="Node.js"><i class="devicon-nodejs-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Express"><i class="devicon-express-original colored"></i></div>
+            <div class="hero-tech-icon" title="ASP.NET"><i class="devicon-dotnetcore-plain colored"></i></div>
           </div>
         </div>
         <div class="tech-group">
-          <span class="tech-group-label">DB</span>
+          <span class="tech-group-label">Database</span>
           <div class="tech-group-divider"></div>
           <div class="tech-group-icons">
-            <div class="hero-tech-icon" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
-            <div class="hero-tech-icon" title="MySQL"><svg><use href="#icon-mysql"/></svg></div>
+            <div class="hero-tech-icon" title="PostgreSQL"><i class="devicon-postgresql-plain colored"></i></div>
+            <div class="hero-tech-icon" title="MySQL"><i class="devicon-mysql-plain colored"></i></div>
             <div class="hero-tech-icon" title="Microsoft Access"><svg><use href="#icon-access"/></svg></div>
           </div>
         </div>
@@ -746,11 +816,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <span class="tech-group-label">Tools</span>
           <div class="tech-group-divider"></div>
           <div class="tech-group-icons">
-            <div class="hero-tech-icon" title="Git"><svg><use href="#icon-git"/></svg></div>
-            <div class="hero-tech-icon" title="Docker"><svg><use href="#icon-docker"/></svg></div>
-            <div class="hero-tech-icon" title="Linux"><svg><use href="#icon-linux"/></svg></div>
-            <div class="hero-tech-icon" title="NPM"><svg><use href="#icon-npm"/></svg></div>
+            <div class="hero-tech-icon" title="Git"><i class="devicon-git-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Docker"><i class="devicon-docker-plain colored"></i></div>
+            <div class="hero-tech-icon" title="Linux"><i class="devicon-linux-plain colored"></i></div>
+            <div class="hero-tech-icon" title="NPM"><i class="devicon-npm-plain colored"></i></div>
             <div class="hero-tech-icon" title="Render"><svg><use href="#icon-render"/></svg></div>
+            <div class="hero-tech-icon" title="Vercel"><i class="devicon-vercel-original colored"></i></div>
           </div>
         </div>
       </div>
@@ -782,9 +853,48 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <div class="slide-dot"></div>
       <div class="slide-dot"></div>
       <div class="slide-dot"></div>
+      <div class="slide-dot"></div>
     </div>
 
     <div class="projects-snap-container" id="projects-container">
+      
+      <!-- 00: Likhana -->
+      <article class="project-slide">
+        <div class="project-image-zone">
+          <img src="/assets/showcase/Likhana.jpg" alt="Likhana" loading="eager" />
+          <div class="image-zoom-hint"><span>zoom_in</span></div>
+        </div>
+        <div class="project-divider">
+          <div class="divider-line"></div>
+          <div class="project-logo-wrap">
+            <div class="project-logo"><img src="/assets/logos/Likhana.svg" alt="Likhana logo" /></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-meta-left">
+            <p class="project-number">00</p>
+            <h2 class="project-title">Likhana</h2>
+            <p class="project-desc">A social media platform for connecting people with similar interests. 
+              Users can create profiles, share posts, and engage with others in a safe and moderated environment.</p>
+            <a class="project-link" href="https://likhana.vercel.app/" target="_blank" rel="noopener noreferrer">Visit live demo here</a>
+          </div>
+          <div class="project-meta-right">
+            <p class="project-stack-label">Tech Stack</p>
+            <div class="tech-icons">
+              <div class="tech-icon-item" title="HTML"><i class="devicon-html5-plain colored"></i></div>
+              <div class="tech-icon-item" title="CSS"><i class="devicon-css3-plain colored"></i></div>
+              <div class="tech-icon-item" title="JavaScript"><i class="devicon-javascript-plain colored"></i></div>
+              <div class="tech-icon-item" title="Node.js"><i class="devicon-nodejs-plain colored"></i></div>
+              <div class="tech-icon-item" title="React"><i class="devicon-react-original colored"></i></div>
+              <div class="tech-icon-item" title="Vite"><i class="devicon-vitejs-plain colored"></i></div>
+              <div class="tech-icon-item" title="Supabase"><i class="devicon-supabase-plain colored"></i></div>
+              <div class="tech-icon-item" title="PostgreSQL"><i class="devicon-postgresql-plain colored"></i></div>
+              <div class="tech-icon-item" title="Tailwind CSS"><i class="devicon-tailwindcss-plain colored"></i></div>
+              <div class="tech-icon-item" title="Framer Motion"><i class="devicon-framermotion-plain colored"></i></div>
+            </div>
+          </div>
+        </div>
+      </article>
 
       <!-- 01: SecureLabs -->
       <article class="project-slide">
@@ -805,18 +915,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
             <p class="project-desc">A cybersecurity training platform with isolated Docker labs. 
               Learn cybersecurity concepts through hands-on exercises. By simulating real-world scenarios, 
               users can practice identifying and mitigating various security vulnerabilities.</p>
+            <a class="project-link" href="https://securelabs.onrender.com/" target="_blank" rel="noopener noreferrer">Visit live demo here</a>
           </div>
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
-              <div class="tech-icon-item" title="CSS"><svg><use href="#icon-css"/></svg></div>
-              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
-              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
-              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
-              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
-              <div class="tech-icon-item" title="Docker"><svg><use href="#icon-docker"/></svg></div>
-              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
+              <div class="tech-icon-item" title="HTML"><i class="devicon-html5-plain colored"></i></div>
+              <div class="tech-icon-item" title="CSS"><i class="devicon-css3-plain colored"></i></div>
+              <div class="tech-icon-item" title="JavaScript"><i class="devicon-javascript-plain colored"></i></div>
+              <div class="tech-icon-item" title="Node.js"><i class="devicon-nodejs-plain colored"></i></div>
+              <div class="tech-icon-item" title="Express"><i class="devicon-express-original colored"></i></div>
+              <div class="tech-icon-item" title="Supabase"><i class="devicon-supabase-plain colored"></i></div>
+              <div class="tech-icon-item" title="Docker"><i class="devicon-docker-plain colored"></i></div>
+              <div class="tech-icon-item" title="PostgreSQL"><i class="devicon-postgresql-plain colored"></i></div>
               <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
             </div>
           </div>
@@ -841,17 +952,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
             <h2 class="project-title">CCTPinion</h2>
             <p class="project-desc">A school freedom wall and helpdesk platform for City College of Tagaytay. 
               Tamper-evident ticket chains, and automatic moderation profanity filter.</p>
+            <a class="project-link" href="https://cctpinion.onrender.com/" target="_blank" rel="noopener noreferrer">Visit live demo here</a>
           </div>
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
-              <div class="tech-icon-item" title="CSS"><svg><use href="#icon-css"/></svg></div>
-              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
-              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
-              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
-              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
-              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
+              <div class="tech-icon-item" title="HTML"><i class="devicon-html5-plain colored"></i></div>
+              <div class="tech-icon-item" title="CSS"><i class="devicon-css3-plain colored"></i></div>
+              <div class="tech-icon-item" title="JavaScript"><i class="devicon-javascript-plain colored"></i></div>
+              <div class="tech-icon-item" title="Node.js"><i class="devicon-nodejs-plain colored"></i></div>
+              <div class="tech-icon-item" title="Express"><i class="devicon-express-original colored"></i></div>
+              <div class="tech-icon-item" title="PostgreSQL"><i class="devicon-postgresql-plain colored"></i></div>
+              <div class="tech-icon-item" title="Supabase"><i class="devicon-supabase-plain colored"></i></div>
               <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
             </div>
           </div>
@@ -881,13 +993,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="HTML"><svg><use href="#icon-html"/></svg></div>
-              <div class="tech-icon-item" title="Tailwind"><svg><use href="#icon-tailwind"/></svg></div>
-              <div class="tech-icon-item" title="JavaScript"><svg><use href="#icon-js"/></svg></div>
-              <div class="tech-icon-item" title="Node.js"><svg><use href="#icon-node"/></svg></div>
-              <div class="tech-icon-item" title="Express"><svg><use href="#icon-express"/></svg></div>
-              <div class="tech-icon-item" title="Supabase"><svg><use href="#icon-supabase"/></svg></div>
-              <div class="tech-icon-item" title="PostgreSQL"><svg><use href="#icon-postgresql"/></svg></div>
+              <div class="tech-icon-item" title="HTML"><i class="devicon-html5-plain colored"></i></div>
+              <div class="tech-icon-item" title="Tailwind"><i class="devicon-tailwindcss-plain colored"></i></div>
+              <div class="tech-icon-item" title="JavaScript"><i class="devicon-javascript-plain colored"></i></div>
+              <div class="tech-icon-item" title="Node.js"><i class="devicon-nodejs-plain colored"></i></div>
+              <div class="tech-icon-item" title="Express"><i class="devicon-express-original colored"></i></div>
+              <div class="tech-icon-item" title="Supabase"><i class="devicon-supabase-plain colored"></i></div>
+              <div class="tech-icon-item" title="PostgreSQL"><i class="devicon-postgresql-plain colored"></i></div>
               <div class="tech-icon-item" title="Render"><svg><use href="#icon-render"/></svg></div>
             </div>
           </div>
@@ -916,9 +1028,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
-              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
-              <div class="tech-icon-item" title="SQLite"><svg><use href="#icon-sqlite"/></svg></div>
+              <div class="tech-icon-item" title="Flutter"><i class="devicon-flutter-plain colored"></i></div>
+              <div class="tech-icon-item" title="Dart"><i class="devicon-dart-plain colored"></i></div>
+              <div class="tech-icon-item" title="SQLite"><i class="devicon-sqlite-plain colored"></i></div>
             </div>
           </div>
         </div>
@@ -947,8 +1059,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
-              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+              <div class="tech-icon-item" title="Flutter"><i class="devicon-flutter-plain colored"></i></div>
+              <div class="tech-icon-item" title="Dart"><i class="devicon-dart-plain colored"></i></div>
               <div class="tech-icon-item" title="Isar"><svg><use href="#icon-isar"/></svg></div>
             </div>
           </div>
@@ -973,12 +1085,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
             <h2 class="project-title">Word Wipeout</h2>
             <p class="project-desc">An offline-first word puzzle game for Android with Classic, 
               Rage Bait, and Custom modes.</p>
+            <a class="project-link" href="https://github.com/Aqxamid/Word-Wipeout/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer">Download release here</a>  
           </div>
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
-              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+              <div class="tech-icon-item" title="Flutter"><i class="devicon-flutter-plain colored"></i></div>
+              <div class="tech-icon-item" title="Dart"><i class="devicon-dart-plain colored"></i></div>
             </div>
           </div>
         </div>
@@ -1001,12 +1114,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
             <p class="project-number">07</p>
             <h2 class="project-title">Cody</h2>
             <p class="project-desc">A mobile competitive programming platform designed for practicing competitive programming.</p>
+            <a class="project-link" href="https://github.com/Aqxamid/Cody/releases" target="_blank" rel="noopener noreferrer">Download release here</a>
           </div>
           <div class="project-meta-right">
             <p class="project-stack-label">Tech Stack</p>
             <div class="tech-icons">
-              <div class="tech-icon-item" title="Flutter"><svg><use href="#icon-flutter"/></svg></div>
-              <div class="tech-icon-item" title="Dart"><svg><use href="#icon-dart"/></svg></div>
+              <div class="tech-icon-item" title="Flutter"><i class="devicon-flutter-plain colored"></i></div>
+              <div class="tech-icon-item" title="Dart"><i class="devicon-dart-plain colored"></i></div>
             </div>
           </div>
         </div>
@@ -1021,7 +1135,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   <section id="labs">
     <div class="labs-header">
       <h2 class="reveal">The Lab</h2>
-      <p class="reveal reveal-delay-1">A curated collection of practical security research, certifications, and methodical write-ups. Exploring the architecture of vulnerabilities.</p>
+      <p class="reveal reveal-delay-1">Practical security research, certifications, and technical write-ups centered around analyzing and understanding vulnerabilities.</p>
     </div>
 
     <section class="certs-section">
@@ -1030,11 +1144,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         <h3 class="section-title">Certifications</h3>
         <div class="section-rule"></div>
       </div>
-      <div class="certs-grid">
-        <div class="cert-card reveal"><span class="cert-icon">shield</span><span class="cert-name">Lorem ipsum</span><span class="cert-issuer">Soon...</span></div>
-        <div class="cert-card reveal reveal-delay-1"><span class="cert-icon">cloud</span><span class="cert-name">Lorem ipsum</span><span class="cert-issuer">Soon...</span></div>
-        <div class="cert-card reveal reveal-delay-2"><span class="cert-icon">terminal</span><span class="cert-name">Lorem ipsum</span><span class="cert-issuer">Soon...</span></div>
-        <div class="cert-card reveal reveal-delay-3"><span class="cert-icon">verified_user</span><span class="cert-name">Lorem ipsum</span><span class="cert-issuer">Soon...</span></div>
+      <div class="certs-scroll" id="certs-scroll">
+        <div class="cert-img-card reveal">
+          <img src="/assets/certs/isc2_pre-assessment.jpg" alt="ISC2 Pre-Assessment Certificate" loading="lazy" />
+          <span class="cert-img-label">ISC2</span>
+        </div>
+        <div class="cert-img-card reveal reveal-delay-1">
+          <img src="/assets/certs/swimmer_osint_ctf_2026_lil_Pwny.png" alt="Swimmer OSINT CTF Certificate" loading="lazy" />
+          <span class="cert-img-label">Swimmer OSINT CTF</span>
+        </div>
+        <div class="cert-img-card reveal reveal-delay-2">
+          <img src="/assets/certs/0xfun_ctf.jpg" alt="0xFUN CTF Certificate" loading="lazy" />
+          <span class="cert-img-label">0xFUN CTF</span>
+        </div>
+        <div class="cert-img-card reveal reveal-delay-3">
+          <img src="/assets/certs/tryhackme_loveatfirstbreach.jpg" alt="THM Love at First Breach Certificate" loading="lazy" />
+          <span class="cert-img-label">TryHackMe — Love at First Breach</span>
+        </div>
+        <div class="cert-img-card reveal reveal-delay-4">
+          <img src="/assets/certs/hackathon_scs.png" alt="SCS Hackathon Certificate" loading="lazy" />
+          <span class="cert-img-label">SCS Hackathon</span>
+        </div>
       </div>
     </section>
 
@@ -1089,9 +1219,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <h2 class="contact-title reveal">Let's build<br>something.</h2>
       <p class="contact-sub reveal reveal-delay-1">Reach out to start a conversation about your next project.</p>
       <div class="contact-actions reveal reveal-delay-2">
-        <a href="assets/resume.pdf" download class="btn-outline">
-          <span class="btn-icon">download</span>
-          Download Resume
+        <a href="https://flowcv.com/resume/1b78snujl20l" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          <span class="btn-icon">open_in_new</span>
+          View Resume
         </a>
         <div class="contact-socials">
           <a href="mailto:contact.allenparado@gmail.com" class="social-link" aria-label="Email">
@@ -1141,25 +1271,45 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   function initProgressBar() {
     const fill = document.getElementById('progress-fill');
     if (!fill) return;
+    let rafId = null;
     window.addEventListener('scroll', () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-      const pct = scrollHeight - clientHeight > 0
-        ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
-      fill.style.height = pct + '%';
-    });
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        const pct = scrollHeight - clientHeight > 0
+          ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
+        fill.style.height = pct + '%';
+      });
+    }, { passive: true });
   }
 
   /* ── NAV ACTIVE ON SCROLL ─── */
   function initNavHighlight() {
     const nav = document.getElementById('top-nav');
     const links = document.querySelectorAll('.nav-links a');
-    const sections = ['about','projects','labs','contact'].map(id => document.getElementById(id));
+    const sectionIds = ['about','projects','labs','contact'];
+    // Precompute offsets once; refresh on resize
+    let offsets = [];
+    function cacheOffsets() {
+      offsets = sectionIds.map(id => {
+        const el = document.getElementById(id);
+        return el ? { id, top: el.offsetTop } : null;
+      }).filter(Boolean);
+    }
+    cacheOffsets();
+    window.addEventListener('resize', cacheOffsets, { passive: true });
 
+    let rafId = null;
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 10);
-      let current = 'about';
-      sections.forEach(s => { if (s && window.scrollY >= s.offsetTop - 120) current = s.id; });
-      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        nav.classList.toggle('scrolled', window.scrollY > 10);
+        let current = 'about';
+        offsets.forEach(s => { if (window.scrollY >= s.top - 120) current = s.id; });
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+      });
     }, { passive: true });
   }
 
@@ -1253,6 +1403,93 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     });
   }
 
+  /* ── PROJECTS SCROLL GATE ─── */
+  /* Prevents the projects section from appearing partially scrolled in.
+     Wheel events are intercepted at the page level to snap cleanly
+     into/out of #projects; the inner snap container handles slides. */
+  function initProjectsScrollGate() {
+    const projects  = document.getElementById('projects');
+    const snapCont  = document.getElementById('projects-container');
+    const aboutEl   = document.getElementById('about');
+    const labsEl    = document.getElementById('labs');
+    if (!projects || !snapCont) return;
+
+    let busy = false;
+
+    function snapTo(el) {
+      if (busy) return;
+      busy = true;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { busy = false; }, 900);
+    }
+
+    /* Reset inner container to first slide whenever #projects is out of view */
+    const resetObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          snapCont.scrollTo({ top: 0, behavior: 'instant' });
+        }
+      });
+    }, { threshold: 0 });
+    resetObserver.observe(projects);
+
+    /* Intercept wheel events to gate scroll into / out of #projects */
+    window.addEventListener('wheel', e => {
+      if (busy) { e.preventDefault(); return; }
+
+      const rect = projects.getBoundingClientRect();
+      const vh   = window.innerHeight;
+
+      /* ── Scrolling DOWN and projects is entering from below ── */
+      if (e.deltaY > 0 && rect.top > 1 && rect.top < vh) {
+        e.preventDefault();
+        snapTo(projects);
+        return;
+      }
+
+      /* ── Scrolling UP and projects is entering from above ── */
+      if (e.deltaY < 0 && rect.bottom > 0 && rect.bottom < vh) {
+        e.preventDefault();
+        if (aboutEl) snapTo(aboutEl);
+        return;
+      }
+
+      /* ── When projects is fully in view, handle boundary slides ── */
+      const aligned = rect.top > -4 && rect.top < 4;
+      if (aligned) {
+        const atFirst = snapCont.scrollTop < 10;
+        const atLast  = snapCont.scrollTop + snapCont.clientHeight >= snapCont.scrollHeight - 10;
+
+        if (e.deltaY < 0 && atFirst) {
+          /* At first slide, scroll up → go back to About */
+          e.preventDefault();
+          if (aboutEl) snapTo(aboutEl);
+        } else if (e.deltaY > 0 && atLast) {
+          /* At last slide, scroll down → advance to Labs */
+          e.preventDefault();
+          if (labsEl) snapTo(labsEl);
+        }
+        /* Otherwise let the inner snap container handle slide changes */
+      }
+    }, { passive: false });
+  }
+
+  /* ── CERTS DRAG-TO-SCROLL ─── */
+  function initCertsDrag() {
+    const el = document.getElementById('certs-scroll');
+    if (!el) return;
+    let isDown = false, startX = 0, scrollStart = 0;
+    el.addEventListener('mousedown', e => {
+      isDown = true; startX = e.pageX; scrollStart = el.scrollLeft;
+      el.style.userSelect = 'none';
+    });
+    window.addEventListener('mouseup',   () => { isDown = false; el.style.userSelect = ''; });
+    window.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      el.scrollLeft = scrollStart - (e.pageX - startX);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initFooterYear();
     initProgressBar();
@@ -1262,6 +1499,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     initSlideDots();
     initLightbox();
     initSmoothNav();
+    initProjectsScrollGate();
+    initCertsDrag();
   });
 })();
   </script>
