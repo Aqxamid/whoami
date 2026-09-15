@@ -7,7 +7,7 @@ Learning, experimenting, and building — one commit at a time.
 
 ## About Me
 
-Hi! I'm **Allen Ronn Parado**, a 3rd-year IT student based in the Philippines.
+Hi! I'm **Allen Ronn Parado**, a 4th-year IT student based in the Philippines.
 I continuously explore different technologies, with a strong focus on security, development, and system design.
 
 ---
