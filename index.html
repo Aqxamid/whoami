@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Afacad:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 <style>
 :root{
@@ -143,6 +142,8 @@ h2.t{font:700 clamp(3rem,6vw,5rem)/1 var(--display);letter-spacing:-.035em;margi
 .soc{display:flex;gap:12px}
 .soc a{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(252,249,242,.4);font-size:24px;transition:background .2s,color .2s,transform .2s}
 .soc a:hover{background:var(--fixed);color:var(--primary);transform:translateY(-3px)}
+.soc a img{width:24px;height:24px;filter:brightness(0) invert(1);transition:filter .2s}
+.soc a:hover img{filter:none}
 .soc .material-symbols-outlined{font:300 26px 'Material Symbols Outlined'}
 footer{background:var(--primary);color:rgba(252,249,242,.7);font-size:14px;padding:0 0 40px;min-height:0;}
 footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
@@ -172,7 +173,7 @@ footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
   .proj-info-card .desc{font-size:.82rem;line-height:1.45;}
   .proj-info-card .tags{gap:5px;}
   .proj-info-card .ti{width:34px;height:34px;font-size:18px;}
-  .proj-info-card .proj-link{margin-left:0;font-size:13px;padding:8px 12px;}
+  .proj-info-card .proj-link{display:flex;width:fit-content;margin:14px 0 0;font-size:13px;padding:8px 12px;}
   
   .carousel-nav{display:none}
   .cert{flex-basis:280px;height:196px}
@@ -201,13 +202,13 @@ footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
   <div class="wrap hero-grid">
     <div>
       <h1 class="in">Allen Ronn<br>Parado</h1>
-      <p class="tagline in d1">A student with a passion for building things that are both secure and purposeful.</p>
+      <p class="tagline in d1">Security-focused IT student with hands-on CTF experience, dedicated to engineering resilient backend architectures, hardened REST APIs, and robust full-stack applications.</p>
       
       <div class="stack in d2" id="stack"></div>
       
       <div class="btns in d3">
         <a href="#projects" class="btn fill">View projects</a>
-        <a href="https://flowcv.com/resume/wajs7f8ok6fr" target="_blank" rel="noopener noreferrer" class="btn ghost">Resume</a>
+        <a href="https://flowcv.com/resume/6a0kgahvo0v6" target="_blank" rel="noopener noreferrer" class="btn ghost">Resume</a>
       </div>
     </div>
     <div class="portrait in d3"><img src="assets/me.JPG" alt="Allen Ronn Parado" loading="eager" /></div>
@@ -253,12 +254,12 @@ footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
   <div class="wrap">
     <h2>Let's build<br>something.</h2>
     <div class="row">
-      <a href="https://flowcv.com/resume/wajs7f8ok6fr" target="_blank" rel="noopener noreferrer" class="btn light">View resume</a>
+      <a href="https://flowcv.com/resume/6a0kgahvo0v6" target="_blank" rel="noopener noreferrer" class="btn light">View resume</a>
       <div class="soc">
         <a href="mailto:contact.allenparado@gmail.com" aria-label="Email"><span class="material-symbols-outlined">mail</span></a>
-        <a href="https://www.linkedin.com/in/allen-ronn-parado-846981383/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="devicon-linkedin-plain"></i></a>
-        <a href="https://github.com/Aqxamid" target="_blank" rel="noopener" aria-label="GitHub"><i class="devicon-github-original"></i></a>
-        <a href="https://www.facebook.com/EQX.Aquarius.02" target="_blank" rel="noopener" aria-label="Facebook"><i class="devicon-facebook-plain"></i></a>
+        <a href="https://www.linkedin.com/in/allen-ronn-parado-846981383/" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-plain.svg" alt="" loading="lazy"></a>
+        <a href="https://github.com/Aqxamid" target="_blank" rel="noopener" aria-label="GitHub"><img src="https://cdn.simpleicons.org/github/181717" alt="" loading="lazy"></a>
+        <a href="https://www.facebook.com/EQX.Aquarius.02" target="_blank" rel="noopener" aria-label="Facebook"><img src="https://cdn.simpleicons.org/facebook/0866FF" alt="" loading="lazy"></a>
       </div>
     </div>
   </div>
@@ -269,29 +270,58 @@ footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
 
 <script>
 (() => {
-  // Raw SVGs for icons not found in devicon
+  // Fallback icons for technologies without a brand icon in the main map.
   const customSVGs = {
-    Render: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M4.49 20.35a11.88 11.88 0 010-16.7 11.88 11.88 0 0116.7 0 11.88 11.88 0 010 16.7 11.88 11.88 0 01-16.7 0zM12 2.1a9.9 9.9 0 100 19.8A9.9 9.9 0 0012 2.1zm-.9 15.3V6.6l7.2 5.4-7.2 5.4z" fill="#46E3B7"/></svg>',
-    Access: '<svg viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="2" fill="#A4373A"/><text x="12" y="16" font-size="9" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">AC</text></svg>',
+    Render: '<img src="https://cdn.simpleicons.org/render/46E3B7" width="22" height="22" alt="" loading="lazy">',
     Isar: '<svg viewBox="0 0 24 24" width="22" height="22"><rect width="24" height="24" rx="4" fill="#3E64FF"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">ISR</text></svg>'
+  };
+
+  const brandIcons = {
+    javascript: ['javascript', 'F7DF1E'],
+    dart: ['dart', '0175C2'],
+    html5: ['html5', 'E34F26'],
+    css3: ['css3', '1572B6'],
+    tailwindcss: ['tailwindcss', '06B6D4'],
+    react: ['react', '61DAFB'],
+    nodejs: ['nodedotjs', '5FA04E'],
+    express: ['express', '000000'],
+    dotnetcore: ['dotnet', '512BD4'],
+    postgresql: ['postgresql', '4169E1'],
+    mysql: ['mysql', '4479A1'],
+    git: ['git', 'F05032'],
+    docker: ['docker', '2496ED'],
+    linux: ['linux', 'FCC624'],
+    npm: ['npm', 'CB3837'],
+    vercel: ['vercel', '000000'],
+    vitejs: ['vite', '646CFF'],
+    supabase: ['supabase', '3FCF8E'],
+    flutter: ['flutter', '02569B'],
+    sqlite: ['sqlite', '003B57'],
+    framer: ['framer', '0055FF']
+  };
+  const brandIconOverrides = {
+    css3: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg'
   };
 
   // Utility for rendering icons
   const ic = (c) => {
     if (c.startsWith('t:')) return `<div class="ti txt" title="${c.slice(2)}">${c.slice(2)}</div>`;
     if (c.startsWith('s:')) return `<div class="ti" title="${c.slice(2)}">${customSVGs[c.slice(2)]}</div>`;
-    return `<div class="ti" title="${c.split('-')[1]}"><i class="${c} colored"></i></div>`;
+    const name = c;
+    const [slug, color] = brandIcons[name] || [name, '000000'];
+    const src = brandIconOverrides[name] || `https://cdn.simpleicons.org/${slug}/${color}`;
+    return `<div class="ti" title="${name}"><img src="${src}" width="22" height="22" alt="" loading="lazy"></div>`;
   };
     
-  const D = (n, s) => `devicon-${n}-${s}`;
+  const D = (name) => name;
 
   // Categorized Hero Stack
   const stackCategories = [
-    { label: 'Lang', items: [D('javascript','plain'), D('python','plain'), D('dart','plain'), D('csharp','plain')] },
-    { label: 'Frontend', items: [D('html5','plain'), D('css3','plain'), D('tailwindcss','plain'), D('react','original')] },
-    { label: 'Backend', items: [D('nodejs','plain'), D('express','original'), D('dotnetcore','plain')] },
-    { label: 'Data', items: [D('postgresql','plain'), D('mysql','plain'), 's:Access'] },
-    { label: 'Tools', items: [D('git','plain'), D('docker','plain'), D('linux','plain'), D('npm','original-wordmark'), 's:Render', D('vercel','original')] }
+    { label: 'Language', items: [D('javascript'), D('dart')] },
+    { label: 'Frontend', items: [D('html5'), D('css3'), D('tailwindcss'), D('react')] },
+    { label: 'Backend', items: [D('nodejs'), D('express'), D('dotnetcore')] },
+    { label: 'Database', items: [D('postgresql'), D('mysql')] },
+    { label: 'Tools', items: [D('git'), D('docker'), D('linux'), D('npm'), 's:Render', D('vercel')] }
   ];
 
   document.getElementById('stack').innerHTML = stackCategories.map(cat => `
@@ -303,17 +333,17 @@ footer .wrap{border-top:1px solid rgba(252,249,242,.2);padding-top:28px}
   `).join('');
 
   // Projects rendering
-  const web = [D('html5','plain'), D('css3','plain'), D('javascript','plain'), D('nodejs','plain')];
+  const web = [D('html5'), D('css3'), D('javascript'), D('nodejs')];
   
   const projects = [
-    { title: 'Likhana', img: 'showcase/Likhana.jpg', logo: 'logos/Likhana.svg', desc: 'A curated portfolio and workspace environment designed for the next generation of creative professionals.', linkText: 'Visit live demo', linkUrl: 'https://likhana.vercel.app/', stack: [...web, D('react','original'), D('vitejs','plain'), D('supabase','plain'), D('postgresql','plain'), D('tailwindcss','plain'), D('framermotion','plain')] },
-    { title: 'SecureLabs', img: 'showcase/securelabs.png', logo: 'logos/securelabs.png', desc: 'A cybersecurity training platform with isolated Docker labs. Learn cybersecurity concepts through hands-on exercises. By simulating real-world scenarios, users can practice identifying and mitigating various security vulnerabilities.', linkText: 'Visit live demo', linkUrl: 'https://securelabs.onrender.com/', stack: [...web, D('express','original'), D('supabase','plain'), D('docker','plain'), D('postgresql','plain'), 's:Render'] },
-    { title: 'CCTPinion', img: 'showcase/cctpinion.png', logo: 'logos/cctpinion.png', desc: 'A school freedom wall and helpdesk platform for City College of Tagaytay. Tamper-evident ticket chains, and automatic moderation profanity filter.', linkText: 'Visit live demo', linkUrl: 'https://cctpinion.onrender.com/', stack: [...web, D('express','original'), D('postgresql','plain'), D('supabase','plain'), 's:Render'] },
-    { title: 'Brewsko Payroll', img: 'showcase/brewsko.png', logo: 'logos/brewsko.png', desc: 'A web-based payroll and attendance management system for Mr. Brewsko staff. PIN kiosk clock-in/out, automated payroll computation, printable payslips, and an owner dashboard with daily and historical attendance views.', linkText: null, linkUrl: null, stack: [D('html5','plain'), D('tailwindcss','plain'), D('javascript','plain'), D('nodejs','plain'), D('express','original'), D('supabase','plain'), D('postgresql','plain'), 's:Render'] },
-    { title: 'SecureVault', img: 'showcase/securevault.png', logo: 'logos/securevault.png', desc: 'A fully offline, encrypted password manager and secure notepad for Android.', linkText: null, linkUrl: null, stack: [D('flutter','plain'), D('dart','plain'), D('sqlite','plain')] },
-    { title: 'Bop', img: 'showcase/bop.png', logo: 'logos/bop.png', desc: 'An offline-first music player for Android with on-device AI recaps powered by local GGUF LLM support. Synced lyrics, listening stats, Wrapped-style slideshows, smart playlist curation, and persistent caching. UI/UX inspired from spotify.', linkText: null, linkUrl: null, stack: [D('flutter','plain'), D('dart','plain'), 's:Isar'] },
-    { title: 'Word Wipeout', img: 'showcase/wipeout.png', logo: 'logos/wipeout.png', desc: 'An offline-first word puzzle game for Android with Classic, Rage Bait, and Custom modes.', linkText: 'Download release', linkUrl: 'https://github.com/Aqxamid/Word-Wipeout/releases/tag/v1.0.0', stack: [D('flutter','plain'), D('dart','plain')] },
-    { title: 'Cody', img: 'showcase/cody.png', logo: 'logos/cody.png', desc: 'A mobile competitive programming platform designed for practicing competitive programming.', linkText: 'Download release', linkUrl: 'https://github.com/Aqxamid/Cody/releases', stack: [D('flutter','plain'), D('dart','plain')] }
+    { title: 'Likhana', img: 'showcase/Likhana.jpg', logo: 'logos/Likhana.svg', desc: 'Developed a multi-tenant portfolio backend using Express serverless proxy functions, HttpOnly authentication, PostgreSQL cron automated access control, and PayMongo webhook payment processing.', linkText: 'Visit live demo', linkUrl: 'https://likhana.vercel.app/', stack: [...web, D('react'), D('vitejs'), D('supabase'), D('postgresql'), D('tailwindcss'), D('framer')] },
+    { title: 'SecureLabs', img: 'showcase/securelabs.png', logo: 'logos/securelabs.png', desc: 'Engineered a containerized CTF learning platform featuring Express REST APIs, Docker-isolated vulnerable environments (SQLi, XSS, IDOR), real-time leaderboard aggregation, and role-based access control.', linkText: 'Visit live demo', linkUrl: 'https://securelabs.onrender.com/', stack: [...web, D('express'), D('supabase'), D('docker'), D('postgresql'), 's:Render'] },
+    { title: 'CCTPinion', img: 'showcase/cctpinion.png', logo: 'logos/cctpinion.png', desc: 'Architected a cryptographic backend featuring AES-256-GCM payload encryption, Ed25519 digital signatures, Merkle tree tamper-evident verification, and NodeCache in-memory performance caching.', linkText: 'Visit live demo', linkUrl: 'https://cctpinion.onrender.com/', stack: [...web, D('express'), D('postgresql'), D('supabase'), 's:Render'] },
+    { title: 'Brewsko Payroll', img: 'showcase/brewsko.png', logo: 'logos/brewsko.png', desc: 'Built a web-based payroll and timekeeping backend featuring PIN-authenticated kiosk endpoints, automated PHT-synchronized attendance calculations, live payroll adjustments, and Supabase-backed payslip persistence.', linkText: null, linkUrl: null, stack: [D('html5'), D('tailwindcss'), D('javascript'), D('nodejs'), D('express'), D('supabase'), D('postgresql'), 's:Render'] },
+    { title: 'SecureVault', img: 'showcase/securevault.png', logo: 'logos/securevault.png', desc: 'Engineered an offline password and notes manager featuring zero-knowledge AES-256-GCM field-level encryption, PBKDF2 key derivation (210k iterations), local SQLite storage, and Android Keystore biometric authentication.', linkText: null, linkUrl: null, stack: [D('flutter'), D('dart'), D('sqlite')] },
+    { title: 'Bop', img: 'showcase/bop.png', logo: 'logos/bop.png', desc: 'Designed an offline-first media architecture featuring Isar embedded database persistence, asynchronous on-device GGUF LLM background loading, automated LRCLIB API synchronizations, and full JSON library portability.', linkText: 'Download Release', linkUrl: 'https://github.com/Aqxamid/Bop/releases', stack: [D('flutter'), D('dart'), 's:Isar'] },
+    { title: 'Word Wipeout', img: 'showcase/wipeout.png', logo: 'logos/wipeout.png', desc: 'Implemented an offline-first game engine featuring Isar NoSQL state persistence, real-time audio playback synchronization, and dynamic hybrid AI integration combining Google Gemini API with local GGUF models.', linkText: 'Download release', linkUrl: 'https://github.com/Aqxamid/Word-Wipeout/releases/tag/v1.0.0', stack: [D('flutter'), D('dart')] },
+    { title: 'Cody', img: 'showcase/cody.png', logo: 'logos/cody.png', desc: 'Designed backend API proxy routes integrating the Codapi execution engine, featuring an automated multi-language test-case evaluation pipeline and persistent database progress tracking.', linkText: 'Download release', linkUrl: 'https://github.com/Aqxamid/Cody/releases', stack: [D('flutter'), D('dart')] }
   ];
 
   const track = document.getElementById('proj-track');
